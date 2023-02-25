@@ -1,0 +1,17 @@
+{
+  "extends": "@rocketseat/eslint-config/react",
+  "rules": {
+    "semi": [2, "always"],
+    "dot-notation": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": true,
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "globals": {
+    "JSX": "readonly"
+  }
+}
