@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-interface TextContainerProps {
+interface ButtonContainerProps {
   align: "left" | "center" | "right" | "justify";
   size: "xxxs" | "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
   weight: 400 | 500 | 700;
@@ -24,10 +24,11 @@ const textSize = {
   "3xl": "1.75rem",
 };
 
-export const Container = styled.p<TextContainerProps>`
+export const Container = styled.button<ButtonContainerProps>`
   color: ${({ theme }) => theme["white"]};
-  font-family: "Roboto", sans-serif;
+  background: ${({ theme }) => theme["green500"]};
 
+  font-family: "Alata", sans-serif;
   font-size: ${({ size }) => textSize[size]};
   font-weight: ${({ weight }) => weight};
   line-height: 2.4rem;

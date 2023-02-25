@@ -1,13 +1,19 @@
+import { Button } from "../../components/Button";
 import { Text } from "../../components/Text";
+import logoImg from "../../assets/logo.png";
 
 import { Container } from "./styles";
 
 export function Welcome() {
   return (
     <Container>
-      <Text size="xl">Boiola</Text>
-      <Text ml={5}>Gazela</Text>
-      <Text>Gazela</Text>
+      <img src={logoImg} alt="Peladeiros" />
+      <Text size="xl" align="center">
+        Peladeiros
+      </Text>
+      <Button size="md" align="center" lineHeight="100%">
+        Começar
+      </Button>
     </Container>
   );
 }
