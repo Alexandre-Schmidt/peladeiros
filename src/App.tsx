@@ -1,5 +1,10 @@
-function App() {
-  return <h1>Hello Word</h1>;
-}
+import { GlobalStyle } from "./styles/global";
 
-export default App;
+export function App() {
+  return (
+    <>
+      <h1>Hello Word</h1>
+      <GlobalStyle />
+    </>
+  );
+}
