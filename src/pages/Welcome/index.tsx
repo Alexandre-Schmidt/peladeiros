@@ -1,9 +1,13 @@
+import { Text } from "../../components/Text";
+
 import { Container } from "./styles";
 
 export function Welcome() {
   return (
     <Container>
-      <span>Welcome</span>
+      <Text size="xl">Boiola</Text>
+      <Text ml={5}>Gazela</Text>
+      <Text>Gazela</Text>
     </Container>
   );
 }
