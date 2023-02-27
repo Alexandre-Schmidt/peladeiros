@@ -1,19 +1,30 @@
+import { useNavigate } from "react-router-dom";
+
+import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
-import { Text } from "../../components/Text";
+
+import { ButtonWrapper, Container, Content } from "./styles";
+
 import logoImg from "../../assets/logo.png";
 
-import { Container } from "./styles";
-
 export function Welcome() {
+  const navigate = useNavigate();
+
+  const handleNavigateToGames = () => {
+    navigate("/games");
+  };
+
   return (
     <Container>
-      <img src={logoImg} alt="Peladeiros" />
-      <Text size="xl" align="center">
-        Peladeiros
-      </Text>
-      <Button size="md" align="center" lineHeight="100%">
-        Começar
-      </Button>
+      <Content>
+        <img src={logoImg} alt="Peladeiros" />
+
+        <Title variant="secondary">Peladeiros</Title>
+
+        <ButtonWrapper>
+          <Button onClick={handleNavigateToGames}>Começar</Button>
+        </ButtonWrapper>
+      </Content>
     </Container>
   );
 }

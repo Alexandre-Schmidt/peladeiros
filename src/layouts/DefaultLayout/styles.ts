@@ -8,6 +8,6 @@ export const Container = styled.div`
     height: 100vh;
     width: 100%;
     max-width: 500px;
-    background-color: ${({ theme }) => theme["blue500"]};
+    background-color: ${({ theme }) => theme["gray500"]};
   }
 `;

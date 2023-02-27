@@ -3,10 +3,8 @@ import { Container } from "./styles";
 
 interface TextProps {
   align?: "left" | "center" | "right" | "justify";
-  size?: "xxxs" | "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
+  size?: "xs" | "sm" | "md" | "lg";
   weight?: 400 | 500 | 700;
-  transform?: "uppercase" | "lowercase" | "capitalize" | "none";
-  lineHeight?: number;
   mt?: number;
   mb?: number;
   ml?: number;
@@ -18,8 +16,6 @@ export function Text({
   align = "left",
   size = "md",
   weight = 400,
-  transform = "none",
-  lineHeight,
   mt = 0,
   mb = 0,
   ml = 0,
@@ -31,8 +27,6 @@ export function Text({
       align={align}
       size={size}
       weight={weight}
-      transform={transform}
-      lineHeight={lineHeight}
       mt={mt}
       mb={mb}
       ml={ml}

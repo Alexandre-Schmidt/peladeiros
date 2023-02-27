@@ -1,44 +1,10 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 import { Container } from "./styles";
 
-interface ButtonProps {
-  align?: "left" | "center" | "right" | "justify";
-  size?: "xxxs" | "xxs" | "xs" | "sm" | "md" | "lg" | "xl";
-  weight?: 400 | 500 | 700;
-  transform?: "uppercase" | "lowercase" | "capitalize" | "none";
-  lineHeight?: number;
-  mt?: number;
-  mb?: number;
-  ml?: number;
-  mr?: number;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-export function Button({
-  align = "left",
-  size = "md",
-  weight = 400,
-  transform = "none",
-  lineHeight,
-  mt = 0,
-  mb = 0,
-  ml = 0,
-  mr = 0,
-  children,
-}: ButtonProps) {
-  return (
-    <Container
-      align={align}
-      size={size}
-      weight={weight}
-      transform={transform}
-      lineHeight={lineHeight}
-      mt={mt}
-      mb={mb}
-      ml={ml}
-      mr={mr}
-    >
-      {children}
-    </Container>
-  );
+export function Button({ children, ...rest }: ButtonProps) {
+  return <Container {...rest}>{children}</Container>;
 }
