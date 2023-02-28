@@ -2,10 +2,10 @@ import { ReactNode } from "react";
 
 import { Container } from "./styles";
 
-interface RecordsProps {
+interface ButtonWrapperProps {
   children: ReactNode;
 }
 
-export function Records({ children }: RecordsProps) {
+export function ButtonWrapper({ children }: ButtonWrapperProps) {
   return <Container>{children}</Container>;
 }

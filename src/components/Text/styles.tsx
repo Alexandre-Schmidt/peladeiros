@@ -22,7 +22,6 @@ export const Container = styled.p<TextContainerProps>`
   font-family: "Roboto", sans-serif;
   font-size: ${({ size }) => textSize[size]};
   font-weight: ${({ weight }) => weight};
-  line-height: 2.4rem;
   text-align: ${({ align }) => align};
   margin-top: ${({ mt }) => mt}rem;
   margin-bottom: ${({ mb }) => mb}rem;

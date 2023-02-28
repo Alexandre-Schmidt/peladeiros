@@ -27,10 +27,3 @@ export const Content = styled.div`
     letter-spacing: 0.06em;
   }
 `;
-
-export const ButtonWrapper = styled.div`
-  width: 100%;
-  position: absolute;
-  bottom: 1.5rem;
-  padding: 0 1.5rem;
-`;
