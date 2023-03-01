@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
+import { ButtonWrapper } from "../../components/ButtonWrapper";
 
-import { ButtonWrapper, Container, Content } from "./styles";
+import { Container, Content } from "./styles";
 
 import logoImg from "../../assets/logo.png";
 
