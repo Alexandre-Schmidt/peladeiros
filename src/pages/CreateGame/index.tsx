@@ -1,20 +1,19 @@
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
 import { ButtonWrapper } from "../../components/ButtonWrapper";
-
-import { Container } from "./styles";
-import { Inputs } from "../../components/Games/Inputs";
+import { PageContainer } from "../../components/Games/PageContainer";
+import { CreateGameForm } from "../../components/Games/CreateGameForm";
 
 export function CreateGame() {
   return (
-    <Container>
+    <PageContainer>
       <Title>NOVO</Title>
 
-      <Inputs />
+      <CreateGameForm />
 
       <ButtonWrapper>
-        <Button>Novo</Button>
+        <Button>Salvar</Button>
       </ButtonWrapper>
-    </Container>
+    </PageContainer>
   );
 }
