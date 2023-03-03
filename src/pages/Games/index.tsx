@@ -4,8 +4,7 @@ import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
 import { ListGames } from "../../components/Games/ListGames";
 import { ButtonWrapper } from "../../components/ButtonWrapper";
-
-import { Container } from "./styles";
+import { PageContainer } from "../../components/Games/PageContainer";
 
 export function Games() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ export function Games() {
   };
 
   return (
-    <Container>
+    <PageContainer>
       <Title>Peladas</Title>
 
       <ListGames />
@@ -23,6 +22,6 @@ export function Games() {
       <ButtonWrapper>
         <Button onClick={handleNavigateToCreateGame}>Novo</Button>
       </ButtonWrapper>
-    </Container>
+    </PageContainer>
   );
 }
