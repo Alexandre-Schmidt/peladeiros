@@ -9,13 +9,18 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-
   input {
     font-family: 'Roboto', sans-serif;
     color: ${({ theme }) => theme["blue500"]};
   }
 
+  label {
+    font-family: 'Roboto', sans-serif;
+  }
+
   button {
     cursor: pointer;
+    background: transparent;
+    border: none;
   }
 `;

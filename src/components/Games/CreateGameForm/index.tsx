@@ -1,40 +1,77 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { Input } from "../../Input";
+import { Select } from "../../Select";
 
 import { Container, InputsWrapper } from "./styles";
 
+interface FormData {
+  name: string;
+}
+
 export function CreateGameForm() {
-  const [name, setName] = useState("");
+  const [playersNumber, setPlayersNumber] = useState(2);
+  const [duration, setDuration] = useState(1);
+  const [limit, setLimit] = useState(0);
+  const [goalsNumber, setGoalsNumber] = useState(1);
 
-  const handleSetName = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
+  const { register, handleSubmit } = useForm<FormData>();
 
-  const handleSave = () => {
-    console.log(name);
+  const handleSave = ({ name }: FormData) => {
+    console.log("DATA", { name, playersNumber, duration, limit, goalsNumber });
   };
 
   return (
     <Container>
-      <InputsWrapper>
-        <Input placeholder="Nome" onChange={(event) => handleSetName(event)} />
+      <form onSubmit={handleSubmit(handleSave)}>
+        <InputsWrapper>
+          <Input name="name" placeholder="Nome" register={register} />
+
+          <div>
+            <Select
+              name="playerNumber"
+              placeholder="Jog por time"
+              type="number"
+              min={2}
+              max={10}
+              onChangeValue={(value) => setPlayersNumber(value)}
+            />
+            <Select
+              name="duration"
+              placeholder="Duração (min)"
+              type="number"
+              min={1}
+              max={90}
+              onChangeValue={(value) => setDuration(value)}
+            />
+          </div>
+
+          <div>
+            <Select
+              name="limit"
+              placeholder="Limite de gols"
+              type="options"
+              options={["SIM", "NÃO"]}
+              onChangeValue={(value) => setLimit(value)}
+            />
+            <Select
+              name="goals"
+              placeholder="Gols"
+              type="number"
+              min={1}
+              max={10}
+              onChangeValue={(value) => setGoalsNumber(value)}
+            />
+          </div>
+        </InputsWrapper>
 
         <div>
-          <Input placeholder="Telefone" />
-          <Input placeholder="Idade" />
+          <span>Button radios</span>
         </div>
 
-        <div>
-          <Input placeholder="Profissão" />
-          <Input placeholder="Idade" />
-        </div>
-      </InputsWrapper>
-
-      <div>
-        <span>Button radios</span>
-      </div>
-
-      <button onClick={handleSave}>Enviar</button>
+        <button type="submit">Enviar</button>
+      </form>
     </Container>
   );
 }
