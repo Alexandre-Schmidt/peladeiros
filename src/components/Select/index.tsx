@@ -10,6 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   min?: number;
   max?: number;
   options?: string[];
+  onChangeValue: (value: number) => void;
 }
 
 export function Select({
@@ -19,6 +20,7 @@ export function Select({
   min = 0,
   max = 999,
   options,
+  onChangeValue,
   ...rest
 }: InputProps) {
   const [value, setValue] = useState(min);
@@ -32,6 +34,7 @@ export function Select({
       if (value === max) return;
 
       setValue((oldState) => oldState + 1);
+      onChangeValue(value + 1);
 
       return;
     }
@@ -45,6 +48,7 @@ export function Select({
     if (index === undefined) return;
 
     setSelectedOption(options[index + 1]);
+    onChangeValue(index + 1);
   };
 
   const handleDownValue = () => {
@@ -52,6 +56,7 @@ export function Select({
       if (value === min) return;
 
       setValue((oldState) => oldState - 1);
+      onChangeValue(value - 1);
     }
 
     if (options === undefined) return;
@@ -63,6 +68,7 @@ export function Select({
     if (index === undefined) return;
 
     setSelectedOption(options[index - 1]);
+    onChangeValue(index - 1);
   };
 
   return (
