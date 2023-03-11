@@ -39,7 +39,7 @@ export const Label = styled.label`
   transition: 200ms ease all;
   cursor: text;
   transform-origin: 0 0;
-  transform: translateY(17px);
+  transform: translateY(18px);
 `;
 
 export const ControlsWrapper = styled.div`
