@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${({ theme }) => theme["blue500"]};
   }
 
-  label {
+  label, span, p {
     font-family: 'Roboto', sans-serif;
   }
 

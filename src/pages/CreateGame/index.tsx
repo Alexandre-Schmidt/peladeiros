@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { useGame } from "../../contexts/useGames";
 
+import { Text } from "../../components/Text";
 import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { RadioGroup } from "../../components/RadioGroup";
 import { ButtonWrapper } from "../../components/ButtonWrapper";
 import { PageContainer } from "../../components/PageContainer";
 
@@ -18,7 +21,9 @@ interface FormData {
 }
 
 export function CreateGame() {
-  const { register, handleSubmit } = useForm<FormData>();
+  const [rule, setRule] = useState(0);
+
+  const { register, handleSubmit, setValue } = useForm<FormData>();
 
   const { createGame } = useGame();
 
@@ -28,7 +33,10 @@ export function CreateGame() {
       playersNumber,
       duration,
       goals,
+      rule,
     });
+
+    setValue("name", "");
   };
 
   return (
@@ -59,6 +67,18 @@ export function CreateGame() {
             {...register("goals")}
           />
         </InputsWrapper>
+
+        <Text size="lg" mb={1}>
+          Regras do Sorteio
+        </Text>
+        <RadioGroup
+          radios={[
+            "Ordem de Chegada",
+            "2 primeiros times aleatórios",
+            "Todos aleatório",
+          ]}
+          getValue={(value) => setRule(value)}
+        />
       </Form>
 
       <ButtonWrapper>

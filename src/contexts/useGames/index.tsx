@@ -5,6 +5,7 @@ export interface CreateGameData {
   playersNumber: number;
   duration: string;
   goals: string;
+  rule: number;
 }
 
 interface GamesContextData {
