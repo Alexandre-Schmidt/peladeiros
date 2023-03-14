@@ -1,27 +1,29 @@
-import { Game } from "../Game";
+import { useEffect, useState } from "react";
+
+import { Game as GameComponent } from "../Game";
 
 import { Container } from "./styles";
 
+interface Game {
+  id: string;
+  name: string;
+}
+
 export function ListGames() {
-  const games = [
-    {
-      id: 1,
-      title: "Os Pernas de Pau",
-    },
-    {
-      id: 2,
-      title: "Arranca Toco",
-    },
-    {
-      id: 3,
-      title: "Ibis do Centro Oeste",
-    },
-  ];
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+    const games = localStorage.getItem("@peladeiros:games");
+
+    if (!games) return;
+
+    setGames(JSON.parse(games));
+  }, []);
 
   return (
     <Container>
       {games.map((game) => (
-        <Game key={game.id} title={game.title} />
+        <GameComponent key={game.id} title={game.name} />
       ))}
     </Container>
   );
