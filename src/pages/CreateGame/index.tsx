@@ -8,7 +8,7 @@ import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { RadioGroup } from "../../components/RadioGroup";
-import { ButtonWrapper } from "../../components/ButtonWrapper";
+import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
 
 import { Form, InputsWrapper } from "./styles";
@@ -81,9 +81,9 @@ export function CreateGame() {
         />
       </Form>
 
-      <ButtonWrapper>
+      <BottomWrapper>
         <Button onClick={handleSubmit(handleSave)}>Salvar</Button>
-      </ButtonWrapper>
+      </BottomWrapper>
     </PageContainer>
   );
 }

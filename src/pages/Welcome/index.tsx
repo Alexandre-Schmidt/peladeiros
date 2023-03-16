@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
-import { ButtonWrapper } from "../../components/ButtonWrapper";
+import { BottomWrapper } from "../../components/BottomWrapper";
 
 import { Container, Content } from "./styles";
 
@@ -22,9 +22,9 @@ export function Welcome() {
 
         <Title variant="secondary">Peladeiros</Title>
 
-        <ButtonWrapper>
+        <BottomWrapper>
           <Button onClick={handleNavigateToGames}>Começar</Button>
-        </ButtonWrapper>
+        </BottomWrapper>
       </Content>
     </Container>
   );

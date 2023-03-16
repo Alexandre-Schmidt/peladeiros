@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
 import { ListGames } from "../../components/Games/ListGames";
-import { ButtonWrapper } from "../../components/ButtonWrapper";
+import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
 
 export function Games() {
@@ -19,9 +19,9 @@ export function Games() {
 
       <ListGames />
 
-      <ButtonWrapper>
+      <BottomWrapper>
         <Button onClick={handleNavigateToCreateGame}>Novo</Button>
-      </ButtonWrapper>
+      </BottomWrapper>
     </PageContainer>
   );
 }

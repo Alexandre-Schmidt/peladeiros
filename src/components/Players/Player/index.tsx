@@ -13,8 +13,9 @@ export function Player({ name, position }: playerProps) {
   return (
     <Container>
       <div>
-        <Text>{position}.</Text>
-        <Text>{name}</Text>
+        <Text>
+          {position}. {name}
+        </Text>
       </div>
       <div>
         {position !== 1 && <FiChevronUp size={20} />}
