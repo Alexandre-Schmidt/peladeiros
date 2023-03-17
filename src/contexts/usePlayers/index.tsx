@@ -5,7 +5,7 @@ export interface CreatePlayerData {
 }
 
 interface Player {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -31,24 +31,31 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return JSON.parse(playersData);
   });
 
-  const createPlayer = (data: CreatePlayerData) => {
+  const createPlayer = ({ name }: CreatePlayerData) => {
     const players = localStorage.getItem("@peladeiros:players");
 
     if (!players) {
       localStorage.setItem(
         "@peladeiros:players",
-        JSON.stringify([{ id: 1, ...data }])
+        JSON.stringify([{ id: 1, name }])
       );
-
+      setPlayers([{ id: 1, name }]);
       return;
     }
 
-    const arrayPlayers = JSON.parse(players);
+    const arrayPlayers: Player[] = JSON.parse(players);
 
-    arrayPlayers.push({ id: arrayPlayers.length + 1, ...data });
+    const checkName = arrayPlayers.some(
+      (item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+    );
 
-    localStorage.setItem("@peladeiros:players", JSON.stringify(arrayPlayers));
-    setPlayers(arrayPlayers);
+    if (!checkName) {
+      arrayPlayers.push({ id: arrayPlayers.length + 1, name });
+      localStorage.setItem("@peladeiros:players", JSON.stringify(arrayPlayers));
+      setPlayers(arrayPlayers);
+    } else {
+      alert("O(a) " + name + " já está salvo. Clique no botão 'Salvos'");
+    }
   };
 
   return (
