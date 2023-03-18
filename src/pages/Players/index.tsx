@@ -18,6 +18,7 @@ interface FormData {
 
 export function Players() {
   const navigate = useNavigate();
+
   const handleNavigateToPlayers = () => {
     navigate("/players");
   };

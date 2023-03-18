@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState } from "react";
+import { useToasts } from "../useToasts";
 
 export interface CreatePlayerData {
   name: string;
@@ -31,6 +32,8 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return JSON.parse(playersData);
   });
 
+  const { handleOpenToast } = useToasts();
+
   const createPlayer = ({ name }: CreatePlayerData) => {
     const players = localStorage.getItem("@peladeiros:players");
 
@@ -54,7 +57,10 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
       localStorage.setItem("@peladeiros:players", JSON.stringify(arrayPlayers));
       setPlayers(arrayPlayers);
     } else {
-      alert("O(a) " + name + " já está salvo. Clique no botão 'Salvos'");
+      handleOpenToast({
+        title: "Error",
+        message: "Já existe um jogador com esse nome",
+      });
     }
   };
 

@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 
 import { GameProvider } from "./contexts/useGames";
 import { PlayerProvider } from "./contexts/usePlayers";
+import { ToastsProvider } from "./contexts/useToasts";
 
 import { Router } from "./routes";
 
@@ -13,11 +14,13 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
-        <PlayerProvider>
-          <GameProvider>
-            <Router />
-          </GameProvider>
-        </PlayerProvider>
+        <ToastsProvider>
+          <PlayerProvider>
+            <GameProvider>
+              <Router />
+            </GameProvider>
+          </PlayerProvider>
+        </ToastsProvider>
         <GlobalStyle />
       </BrowserRouter>
     </ThemeProvider>

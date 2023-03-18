@@ -8,7 +8,7 @@ export interface CreateGameData {
   rule: number;
 }
 
-interface GamesContextData {
+interface GameContextData {
   createGame: (data: CreateGameData) => void;
 }
 
@@ -16,7 +16,7 @@ interface GameProviderProps {
   children: ReactNode;
 }
 
-const GameContext = createContext<GamesContextData>({} as GamesContextData);
+const GameContext = createContext<GameContextData>({} as GameContextData);
 
 const GameProvider = ({ children }: GameProviderProps) => {
   const createGame = (data: CreateGameData) => {
@@ -45,7 +45,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
   );
 };
 
-function useGame(): GamesContextData {
+function useGame(): GameContextData {
   const context = useContext(GameContext);
 
   if (!context) {
