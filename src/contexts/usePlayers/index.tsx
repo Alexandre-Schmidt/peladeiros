@@ -1,18 +1,18 @@
 import { createContext, useContext, ReactNode, useState } from "react";
-import { useToasts } from "../useToasts";
 
 export interface CreatePlayerData {
   name: string;
+  gameId: number;
 }
 
-interface Player {
+export interface Player extends CreatePlayerData {
   id: number;
-  name: string;
 }
 
 interface PlayersContextData {
   players: Player[];
-  createPlayer: (data: CreatePlayerData) => void;
+  createPlayer: (data: CreatePlayerData) => Player;
+  findPlayerByName: (name: string) => Player | undefined;
 }
 
 interface PlayerProviderProps {
@@ -32,41 +32,51 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return JSON.parse(playersData);
   });
 
-  const { handleOpenToast } = useToasts();
-
-  const createPlayer = ({ name }: CreatePlayerData) => {
+  const createPlayer = ({ name, gameId }: CreatePlayerData) => {
     const players = localStorage.getItem("@peladeiros:players");
 
     if (!players) {
       localStorage.setItem(
         "@peladeiros:players",
-        JSON.stringify([{ id: 1, name }])
+        JSON.stringify([{ id: 1, name, gameId }])
       );
-      setPlayers([{ id: 1, name }]);
-      return;
+
+      const player = { id: 1, name, gameId };
+
+      setPlayers([player]);
+
+      return player;
     }
 
     const arrayPlayers: Player[] = JSON.parse(players);
 
-    const checkName = arrayPlayers.some(
+    const player = { id: arrayPlayers.length + 1, name, gameId };
+
+    arrayPlayers.push(player);
+
+    localStorage.setItem("@peladeiros:players", JSON.stringify(arrayPlayers));
+
+    setPlayers(arrayPlayers);
+
+    return player;
+  };
+
+  const findPlayerByName = (name: string) => {
+    const players = localStorage.getItem("@peladeiros:players");
+
+    if (!players) return;
+
+    const arrayPlayers: Player[] = JSON.parse(players);
+
+    const player = arrayPlayers.find(
       (item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase()
     );
 
-    if (!checkName) {
-      arrayPlayers.push({ id: arrayPlayers.length + 1, name });
-      localStorage.setItem("@peladeiros:players", JSON.stringify(arrayPlayers));
-      setPlayers(arrayPlayers);
-    } else {
-      handleOpenToast({
-        type: "error",
-        title: "Error",
-        message: "Já existe um jogador com esse nome",
-      });
-    }
+    return player;
   };
 
   return (
-    <PlayerContext.Provider value={{ players, createPlayer }}>
+    <PlayerContext.Provider value={{ players, createPlayer, findPlayerByName }}>
       {children}
     </PlayerContext.Provider>
   );

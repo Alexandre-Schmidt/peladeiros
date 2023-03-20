@@ -5,7 +5,7 @@ import { Game as GameComponent } from "../Game";
 import { Container } from "./styles";
 
 interface Game {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -23,7 +23,7 @@ export function ListGames() {
   return (
     <Container>
       {games.map((game) => (
-        <GameComponent key={game.id} title={game.name} />
+        <GameComponent key={game.id} id={game.id} title={game.name} />
       ))}
     </Container>
   );

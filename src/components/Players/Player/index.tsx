@@ -7,9 +7,10 @@ import { Container } from "./styles";
 interface playerProps {
   name: string;
   position: number;
+  isSortable?: boolean;
 }
 
-export function Player({ name, position }: playerProps) {
+export function Player({ name, position, isSortable = false }: playerProps) {
   return (
     <Container>
       <div>
@@ -17,11 +18,14 @@ export function Player({ name, position }: playerProps) {
           {position}. {name}
         </Text>
       </div>
-      <div>
-        {position !== 1 && <FiChevronUp size={20} />}
-        <FiChevronDown size={20} />
-        <FiX size={20} />
-      </div>
+
+      {isSortable && (
+        <div>
+          {position !== 1 && <FiChevronUp size={20} />}
+          <FiChevronDown size={20} />
+          <FiX size={20} />
+        </div>
+      )}
     </Container>
   );
 }

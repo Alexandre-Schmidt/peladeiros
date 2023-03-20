@@ -9,30 +9,26 @@ import { BottomWrapper } from "../../components/BottomWrapper";
 import { ListPlayers } from "../../components/Players/ListPlayers";
 import { PageContainer } from "../../components/PageContainer";
 import { Input } from "../../components/Input";
+import { useGame } from "../../contexts/useGames";
 
 import { ButtonsContainer } from "./styles";
-import { useGame } from "../../contexts/useGames";
-import { useToasts } from "../../contexts/useToasts";
 
 interface FormData {
   name: string;
 }
 
-export function Players() {
-  const { players } = usePlayer();
-
+export function Order() {
   const navigate = useNavigate();
 
-  const { currentGame } = useGame();
-  const { handleOpenToast } = useToasts();
-
-  const handleNavigateToPlayers = () => {
-    navigate("/players");
-  };
+  const { currentGame, playersOrder, addPlayer } = useGame();
 
   const { register, handleSubmit, setValue } = useForm<FormData>();
 
   const { createPlayer, findPlayerByName } = usePlayer();
+
+  const handleNavigateToPlayers = () => {
+    navigate("/players");
+  };
 
   const handleSave = ({ name }: FormData) => {
     if (!currentGame) return;
@@ -40,28 +36,32 @@ export function Players() {
     const player = findPlayerByName(name);
 
     if (!player) {
-      createPlayer({
+      const newPlayer = createPlayer({
         name,
         gameId: currentGame.id,
       });
 
-      setValue("name", "");
-
-      return;
+      addPlayer({
+        id: newPlayer.id,
+        name: newPlayer.name,
+        gameId: newPlayer.gameId,
+      });
+    } else {
+      addPlayer({
+        id: player.id,
+        name: player.name,
+        gameId: player.gameId,
+      });
     }
 
-    handleOpenToast({
-      type: "error",
-      title: "Error",
-      message: "Jogador já cadastrado",
-    });
+    setValue("name", "");
   };
 
   return (
     <PageContainer>
       <Title>Jogadores</Title>
 
-      <ListPlayers players={players} />
+      <ListPlayers isSortable={true} players={playersOrder} />
 
       <BottomWrapper>
         <Input id="name" placeholder="Nome" {...register("name")} />
