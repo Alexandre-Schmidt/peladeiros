@@ -17,7 +17,7 @@ interface ToastData {
 interface ToastContextData {
   open: boolean;
   toastContent?: ToastData;
-  handleOpenToast: ({ title, message }: ToastData) => void;
+  handleOpenToast: ({ type, title, message }: ToastData) => void;
   handleCloseToast: () => void;
 }
 
@@ -31,8 +31,8 @@ const ToastsProvider = ({ children }: ToastsProviderProps) => {
   const [open, setOpen] = useState(false);
   const [toastContent, setToastContent] = useState<ToastData>();
 
-  const handleOpenToast = ({ title, message }: ToastData) => {
-    setToastContent({ title, message });
+  const handleOpenToast = ({ type, title, message }: ToastData) => {
+    setToastContent({ type, title, message });
     setOpen(true);
   };
 
@@ -43,7 +43,12 @@ const ToastsProvider = ({ children }: ToastsProviderProps) => {
 
   return (
     <ToastsContext.Provider
-      value={{ open, toastContent, handleOpenToast, handleCloseToast }}
+      value={{
+        open,
+        toastContent,
+        handleOpenToast,
+        handleCloseToast,
+      }}
     >
       {children}
     </ToastsContext.Provider>

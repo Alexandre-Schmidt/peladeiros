@@ -58,6 +58,7 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
       setPlayers(arrayPlayers);
     } else {
       handleOpenToast({
+        type: "error",
         title: "Error",
         message: "Já existe um jogador com esse nome",
       });

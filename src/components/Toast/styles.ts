@@ -4,6 +4,16 @@ interface ContainerProps {
   open: boolean;
 }
 
+interface ContentProps {
+  type: "success" | "error" | "info";
+}
+
+const backgroundType = {
+  success: "#D4EDDA",
+  error: "#F8D7DA",
+  info: "#CCE5FF",
+};
+
 export const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 100%;
@@ -22,11 +32,11 @@ export const Container = styled.div<ContainerProps>`
   justify-content: center;
 `;
 
-export const Content = styled.div`
+export const Content = styled.div<ContentProps>`
   width: 80%;
   max-width: 21.25rem;
   height: 4rem;
-  background-color: pink;
+  background-color: ${({ type }) => backgroundType[type]};
   position: relative;
 
   padding-left: 1.5rem;
