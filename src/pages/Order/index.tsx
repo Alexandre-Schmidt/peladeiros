@@ -59,6 +59,8 @@ export function Order() {
     setValue("name", "");
   };
 
+  console.log("PlayersOrder", playersOrder);
+
   return (
     <PageContainer>
       <Title>Jogadores</Title>

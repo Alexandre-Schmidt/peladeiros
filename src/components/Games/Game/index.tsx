@@ -16,7 +16,7 @@ export function Game({ id, title }: GameProps) {
 
   const handleNavigateToGame = () => {
     handleSetCurrentGame(id);
-    navigate("/players");
+    navigate("/order");
   };
 
   return (

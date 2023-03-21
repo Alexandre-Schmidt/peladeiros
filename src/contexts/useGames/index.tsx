@@ -41,7 +41,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
   const [playersOrder, setPlayersOrder] = useState<Player[]>(() => {
     const playersOrder = localStorage.getItem("@peladeiros:playersOrder");
 
-    if (!playersOrder) return undefined;
+    if (!playersOrder) return [];
 
     return JSON.parse(playersOrder);
   });

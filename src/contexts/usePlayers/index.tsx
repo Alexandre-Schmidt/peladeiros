@@ -13,6 +13,7 @@ interface PlayersContextData {
   players: Player[];
   createPlayer: (data: CreatePlayerData) => Player;
   findPlayerByName: (name: string) => Player | undefined;
+  // criar função
 }
 
 interface PlayerProviderProps {
@@ -36,12 +37,11 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     const players = localStorage.getItem("@peladeiros:players");
 
     if (!players) {
-      localStorage.setItem(
-        "@peladeiros:players",
-        JSON.stringify([{ id: 1, name, gameId }])
-      );
-
       const player = { id: 1, name, gameId };
+
+      localStorage.setItem("@peladeiros:players", JSON.stringify([player]));
+
+      setPlayers([player]);
 
       return player;
     }
@@ -65,6 +65,8 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     if (!players) return;
 
     const arrayPlayers: Player[] = JSON.parse(players);
+
+    console.log("ArrayPlayers", arrayPlayers);
 
     const player = arrayPlayers.find(
       (item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase()
