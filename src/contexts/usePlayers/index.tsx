@@ -43,8 +43,6 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
 
       const player = { id: 1, name, gameId };
 
-      setPlayers([player]);
-
       return player;
     }
 

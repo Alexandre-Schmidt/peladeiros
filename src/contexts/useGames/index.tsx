@@ -38,7 +38,13 @@ const GameProvider = ({ children }: GameProviderProps) => {
     return JSON.parse(currentGame);
   });
 
-  const [playersOrder, setPlayersOrder] = useState<Player[]>([]);
+  const [playersOrder, setPlayersOrder] = useState<Player[]>(() => {
+    const playersOrder = localStorage.getItem("@peladeiros:playersOrder");
+
+    if (!playersOrder) return undefined;
+
+    return JSON.parse(playersOrder);
+  });
 
   const { handleOpenToast } = useToasts();
 
@@ -93,8 +99,9 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
       return;
     }
-
-    setPlayersOrder((oldState) => [...oldState, player]);
+    const newPlayer = [...playersOrder, player];
+    setPlayersOrder(newPlayer);
+    localStorage.setItem("@peladeiros:playersOrder", JSON.stringify(newPlayer));
   };
 
   return (

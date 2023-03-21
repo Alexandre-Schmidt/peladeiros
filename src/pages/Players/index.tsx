@@ -35,6 +35,8 @@ export function Players() {
   const { createPlayer, findPlayerByName } = usePlayer();
 
   const handleSave = ({ name }: FormData) => {
+    if (name === "") return;
+
     if (!currentGame) return;
 
     const player = findPlayerByName(name);
