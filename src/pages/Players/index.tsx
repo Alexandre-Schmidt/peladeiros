@@ -15,6 +15,7 @@ import { PageContainer } from "../../components/PageContainer";
 import { ListPlayers } from "../../components/Players/ListPlayers";
 
 import { ButtonsContainer } from "./styles";
+import { useMemo } from "react";
 
 const FormSchema = zod.object({
   name: zod.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
@@ -23,31 +24,14 @@ const FormSchema = zod.object({
 type FormData = zod.infer<typeof FormSchema>;
 
 export function Players() {
-  const { players } = usePlayer(); // chamar função
-
-  // const banana = funcao(currentGame.id)
-
-  const navigate = useNavigate();
-
   const { currentGame } = useGame();
+  const { createPlayer, findPlayerByName, getFilteredPlayers } = usePlayer();
+
   const { handleOpenToast } = useToasts();
 
-  const handleNavigateToPlayers = () => {
-    navigate("/players");
-  };
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
-
-  console.log("Errors", errors);
-
-  const { createPlayer, findPlayerByName } = usePlayer();
 
   const handleSave = ({ name }: FormData) => {
     if (!currentGame) return;
@@ -71,6 +55,12 @@ export function Players() {
       message: "Jogador já cadastrado",
     });
   };
+
+  const players = useMemo(() => {
+    if (!currentGame) return [];
+
+    return getFilteredPlayers(currentGame.id);
+  }, [currentGame, getFilteredPlayers]);
 
   return (
     <PageContainer>

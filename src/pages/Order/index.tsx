@@ -26,19 +26,18 @@ export function Order() {
 
   const { currentGame, playersOrder, addPlayer } = useGame();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FormData>({
+  const { register, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
-  console.log("Errors", errors);
+
   const { createPlayer, findPlayerByName } = usePlayer();
 
   const handleNavigateToPlayers = () => {
     navigate("/players");
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
   };
 
   const handleSave = ({ name }: FormData) => {
@@ -68,13 +67,13 @@ export function Order() {
     setValue("name", "");
   };
 
-  console.log("PlayersOrder", playersOrder);
-
   return (
     <PageContainer>
       <Title>Jogadores</Title>
 
       <ListPlayers isSortable={true} players={playersOrder} />
+
+      <button onClick={handleGoBack}>Voltar</button>
 
       <BottomWrapper>
         <form onSubmit={handleSubmit(handleSave)}>

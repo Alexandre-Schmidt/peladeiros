@@ -11,9 +11,9 @@ export interface Player extends CreatePlayerData {
 
 interface PlayersContextData {
   players: Player[];
+  getFilteredPlayers: (currentGameId: number) => Player[];
   createPlayer: (data: CreatePlayerData) => Player;
   findPlayerByName: (name: string) => Player | undefined;
-  // criar função
 }
 
 interface PlayerProviderProps {
@@ -60,13 +60,11 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
   };
 
   const findPlayerByName = (name: string) => {
-    const players = localStorage.getItem("@peladeiros:players");
+    const findPlayers = localStorage.getItem("@peladeiros:players");
 
-    if (!players) return;
+    if (!findPlayers) return;
 
-    const arrayPlayers: Player[] = JSON.parse(players);
-
-    console.log("ArrayPlayers", arrayPlayers);
+    const arrayPlayers: Player[] = JSON.parse(findPlayers);
 
     const player = arrayPlayers.find(
       (item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase()
@@ -75,8 +73,14 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return player;
   };
 
+  const getFilteredPlayers = (currentGameId: number) => {
+    return players.filter((player) => player.gameId === currentGameId);
+  };
+
   return (
-    <PlayerContext.Provider value={{ players, createPlayer, findPlayerByName }}>
+    <PlayerContext.Provider
+      value={{ players, createPlayer, findPlayerByName, getFilteredPlayers }}
+    >
       {children}
     </PlayerContext.Provider>
   );

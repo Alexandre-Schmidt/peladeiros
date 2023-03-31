@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Title } from "../../components/Title";
@@ -9,8 +10,13 @@ import { PageContainer } from "../../components/PageContainer";
 export function Games() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    localStorage.removeItem("@peladeiros:currentGame");
+    localStorage.removeItem("@peladeiros:playersOrder");
+  }, []);
+
   const handleNavigateToCreateGame = () => {
-    navigate("/games/Create");
+    navigate("/games/create");
   };
 
   return (
