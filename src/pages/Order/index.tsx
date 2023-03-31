@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
 
 import { usePlayer } from "../../contexts/usePlayers";
 
@@ -13,17 +15,26 @@ import { useGame } from "../../contexts/useGames";
 
 import { ButtonsContainer } from "./styles";
 
-interface FormData {
-  name: string;
-}
+const FormSchema = zod.object({
+  name: zod.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
+});
+
+type FormData = zod.infer<typeof FormSchema>;
 
 export function Order() {
   const navigate = useNavigate();
 
   const { currentGame, playersOrder, addPlayer } = useGame();
 
-  const { register, handleSubmit, setValue } = useForm<FormData>();
-
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+  });
+  console.log("Errors", errors);
   const { createPlayer, findPlayerByName } = usePlayer();
 
   const handleNavigateToPlayers = () => {
@@ -31,8 +42,6 @@ export function Order() {
   };
 
   const handleSave = ({ name }: FormData) => {
-    if (name === "") return;
-
     if (!currentGame) return;
 
     const player = findPlayerByName(name);
@@ -68,11 +77,13 @@ export function Order() {
       <ListPlayers isSortable={true} players={playersOrder} />
 
       <BottomWrapper>
-        <Input id="name" placeholder="Nome" {...register("name")} />
-        <ButtonsContainer>
-          <Button onClick={handleNavigateToPlayers}>Salvos</Button>
-          <Button onClick={handleSubmit(handleSave)}>Inserir</Button>
-        </ButtonsContainer>
+        <form onSubmit={handleSubmit(handleSave)}>
+          <Input id="name" placeholder="Nome" {...register("name")} />
+          <ButtonsContainer>
+            <Button onClick={handleNavigateToPlayers}>Salvos</Button>
+            <Button type="submit">Inserir</Button>
+          </ButtonsContainer>
+        </form>
       </BottomWrapper>
     </PageContainer>
   );

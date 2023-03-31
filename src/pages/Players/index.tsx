@@ -82,7 +82,6 @@ export function Players() {
         <form onSubmit={handleSubmit(handleSave)}>
           <Input id="name" placeholder="Nome" {...register("name")} />
           <ButtonsContainer>
-            <Button onClick={handleNavigateToPlayers}>Salvos</Button>
             <Button type="submit">Inserir</Button>
           </ButtonsContainer>
         </form>
