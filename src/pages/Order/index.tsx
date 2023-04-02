@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import { ArrowCircleLeft } from "phosphor-react";
 
 import { usePlayer } from "../../contexts/usePlayers";
 
@@ -12,6 +13,7 @@ import { ListPlayers } from "../../components/Players/ListPlayers";
 import { PageContainer } from "../../components/PageContainer";
 import { Input } from "../../components/Input";
 import { useGame } from "../../contexts/useGames";
+import { Back } from "../../components/Back";
 
 import { ButtonsContainer } from "./styles";
 
@@ -37,7 +39,7 @@ export function Order() {
   };
 
   const handleGoBack = () => {
-    navigate(-1);
+    navigate("/games");
   };
 
   const handleSave = ({ name }: FormData) => {
@@ -69,11 +71,12 @@ export function Order() {
 
   return (
     <PageContainer>
+      <Back onClick={handleGoBack}>
+        <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
+      </Back>
       <Title>Jogadores</Title>
 
       <ListPlayers isSortable={true} players={playersOrder} />
-
-      <button onClick={handleGoBack}>Voltar</button>
 
       <BottomWrapper>
         <form onSubmit={handleSubmit(handleSave)}>

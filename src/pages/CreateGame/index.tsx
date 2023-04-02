@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ArrowCircleLeft } from "phosphor-react";
 
 import { useGame } from "../../contexts/useGames";
 
@@ -10,6 +12,7 @@ import { Button } from "../../components/Button";
 import { RadioGroup } from "../../components/RadioGroup";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
+import { Back } from "../../components/Back";
 
 import { Form, InputsWrapper } from "./styles";
 
@@ -21,6 +24,7 @@ interface FormData {
 }
 
 export function CreateGame() {
+  const navigate = useNavigate();
   const [rule, setRule] = useState(0);
 
   const { register, handleSubmit, setValue } = useForm<FormData>();
@@ -39,8 +43,15 @@ export function CreateGame() {
     setValue("name", "");
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <PageContainer>
+      <Back onClick={handleGoBack}>
+        <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
+      </Back>
       <Title>Novo</Title>
 
       <Form>

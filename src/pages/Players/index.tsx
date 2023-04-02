@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { ArrowCircleLeft } from "phosphor-react";
 
 import { useGame } from "../../contexts/useGames";
 import { useToasts } from "../../contexts/useToasts";
@@ -12,6 +14,7 @@ import { Button } from "../../components/Button";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
 import { ListPlayers } from "../../components/Players/ListPlayers";
+import { Back } from "../../components/Back";
 
 import { ButtonsContainer } from "./styles";
 import { useMemo } from "react";
@@ -23,6 +26,7 @@ const FormSchema = zod.object({
 type FormData = zod.infer<typeof FormSchema>;
 
 export function Players() {
+  const navigate = useNavigate();
   const { currentGame } = useGame();
   const { createPlayer, findPlayerByName, getFilteredPlayers } = usePlayer();
 
@@ -55,6 +59,10 @@ export function Players() {
     });
   };
 
+  const handleGoBack = () => {
+    navigate("/order");
+  };
+
   const players = useMemo(() => {
     if (!currentGame) return [];
 
@@ -63,6 +71,9 @@ export function Players() {
 
   return (
     <PageContainer>
+      <Back onClick={handleGoBack}>
+        <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
+      </Back>
       <Title>Jogadores</Title>
 
       <ListPlayers players={players} />
