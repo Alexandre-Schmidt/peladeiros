@@ -24,6 +24,7 @@ const FormSchema = zod.object({
 type FormData = zod.infer<typeof FormSchema>;
 
 export function Order() {
+  const { reset } = useGame();
   const navigate = useNavigate();
 
   const { currentGame, playersOrder, addPlayer } = useGame();
@@ -39,6 +40,7 @@ export function Order() {
   };
 
   const handleGoBack = () => {
+    reset();
     navigate("/games");
   };
 

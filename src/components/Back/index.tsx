@@ -1,10 +1,13 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
 import { Container } from "./styles";
+import { ArrowCircleLeft } from "phosphor-react";
 
-interface BackProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-}
+interface BackProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export function Back({ children, ...rest }: BackProps) {
-  return <Container {...rest}>{children}</Container>;
+export function Back({ ...rest }: BackProps) {
+  return (
+    <Container {...rest}>
+      <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
+    </Container>
+  );
 }

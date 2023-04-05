@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { ArrowCircleLeft } from "phosphor-react";
 
 import { useGame } from "../../contexts/useGames";
 
@@ -49,9 +48,8 @@ export function CreateGame() {
 
   return (
     <PageContainer>
-      <Back onClick={handleGoBack}>
-        <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
-      </Back>
+      <Back onClick={handleGoBack} />
+
       <Title>Novo</Title>
 
       <Form>
