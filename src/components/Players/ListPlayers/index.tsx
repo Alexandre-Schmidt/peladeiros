@@ -12,12 +12,13 @@ interface ListPlayersProps {
 export function ListPlayers({ players, isSortable }: ListPlayersProps) {
   return (
     <Container>
-      {players.map((players, index) => (
+      {players.map((player, index) => (
         <PlayerComponent
-          key={players.id}
-          name={players.name}
+          key={player.id}
+          name={player.name}
           position={index + 1}
           isSortable={isSortable}
+          lastPosition={players.length - 1}
         />
       ))}
     </Container>

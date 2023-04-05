@@ -11,7 +11,12 @@ export const Container = styled.div`
     background-color: rgba(16, 38, 60, 0.05);
   }
 
+  button:focus {
+    outline: none;
+  }
+
   > div {
     display: flex;
+    gap: 1.125rem;
   }
 `;

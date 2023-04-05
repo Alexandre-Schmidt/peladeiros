@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { useGame } from "../../contexts/useGames";
 
+import { Back } from "../../components/Back";
 import { Text } from "../../components/Text";
 import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
@@ -11,7 +12,6 @@ import { Button } from "../../components/Button";
 import { RadioGroup } from "../../components/RadioGroup";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
-import { Back } from "../../components/Back";
 
 import { Form, InputsWrapper } from "./styles";
 

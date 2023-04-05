@@ -1,19 +1,19 @@
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { ArrowCircleLeft } from "phosphor-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { usePlayer } from "../../contexts/usePlayers";
 
+import { Back } from "../../components/Back";
+import { Input } from "../../components/Input";
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
+import { useGame } from "../../contexts/useGames";
+import { PageContainer } from "../../components/PageContainer";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { ListPlayers } from "../../components/Players/ListPlayers";
-import { PageContainer } from "../../components/PageContainer";
-import { Input } from "../../components/Input";
-import { useGame } from "../../contexts/useGames";
-import { Back } from "../../components/Back";
 
 import { ButtonsContainer } from "./styles";
 

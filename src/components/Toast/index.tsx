@@ -2,6 +2,7 @@ import { RiCloseFill } from "react-icons/ri";
 import { useToasts } from "../../contexts/useToasts";
 
 import { Text } from "../Text";
+
 import { Container, Content } from "./styles";
 
 interface ToastProps {

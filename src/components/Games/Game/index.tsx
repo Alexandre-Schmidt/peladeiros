@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router";
+
 import { useGame } from "../../../contexts/useGames";
 
 import { Text } from "../../Text";
+
 import { Container } from "./styles";
 
 interface GameProps {

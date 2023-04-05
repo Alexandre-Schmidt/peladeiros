@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState } from "react";
+
 import { Player } from "../usePlayers";
 import { useToasts } from "../useToasts";
 
@@ -14,6 +15,11 @@ export interface GameData extends CreateGameData {
   id: number;
 }
 
+interface ChangePlayerOrder {
+  type: "up" | "down";
+  currentIndex: number;
+}
+
 interface GameContextData {
   currentGame?: GameData;
   playersOrder: Player[];
@@ -21,6 +27,7 @@ interface GameContextData {
   addPlayer: (player: Player) => void;
   addPlayers: (players: Player[]) => void;
   handleSetCurrentGame: (id: number) => void;
+  handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
   reset: () => void;
 }
 
@@ -107,9 +114,34 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
   const reset = () => {
     localStorage.removeItem("@peladeiros:currentGame");
-    localStorage.removeItem("@peladeiros:playersOrder");
     setCurrentGame(undefined);
-    setPlayersOrder([]);
+  };
+
+  const handleChangePlayerOrder = ({
+    type,
+    currentIndex,
+  }: ChangePlayerOrder) => {
+    const currentValue = playersOrder[currentIndex];
+
+    const auxValue =
+      playersOrder[type === "up" ? currentIndex - 1 : currentIndex + 1];
+
+    const newPlayersOrder = playersOrder.map((player, index) => {
+      if (index === currentIndex) return auxValue;
+
+      if (index === currentIndex - 1 && type === "up") return currentValue;
+
+      if (index === currentIndex + 1 && type === "down") return currentValue;
+
+      return player;
+    });
+
+    setPlayersOrder(newPlayersOrder);
+
+    localStorage.setItem(
+      "@peladeiros:playersOrder",
+      JSON.stringify(newPlayersOrder)
+    );
   };
 
   return (
@@ -122,6 +154,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         addPlayers,
         addPlayer,
         reset,
+        handleChangePlayerOrder,
       }}
     >
       {children}

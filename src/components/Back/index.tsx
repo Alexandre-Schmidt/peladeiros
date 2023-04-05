@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes } from "react";
-import { Container } from "./styles";
 import { ArrowCircleLeft } from "phosphor-react";
+
+import { Container } from "./styles";
 
 interface BackProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 

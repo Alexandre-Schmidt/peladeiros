@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Toast } from "../../components/Toast";
 
+import { Toast } from "../../components/Toast";
 import { useToasts } from "../../contexts/useToasts";
 
 import { Container } from "./styles";
