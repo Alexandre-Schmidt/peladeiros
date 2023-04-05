@@ -1,20 +1,27 @@
+import { useNavigate } from "react-router-dom";
+
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
 import { ListGames } from "../../components/Games/ListGames";
-import { ButtonWrapper } from "../../components/ButtonWrapper";
-
-import { Container } from "./styles";
+import { BottomWrapper } from "../../components/BottomWrapper";
+import { PageContainer } from "../../components/PageContainer";
 
 export function Games() {
+  const navigate = useNavigate();
+
+  const handleNavigateToCreateGame = () => {
+    navigate("/games/create");
+  };
+
   return (
-    <Container>
+    <PageContainer>
       <Title>Peladas</Title>
 
       <ListGames />
 
-      <ButtonWrapper>
-        <Button>Novo</Button>
-      </ButtonWrapper>
-    </Container>
+      <BottomWrapper>
+        <Button onClick={handleNavigateToCreateGame}>Novo</Button>
+      </BottomWrapper>
+    </PageContainer>
   );
 }

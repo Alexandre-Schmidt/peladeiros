@@ -6,6 +6,6 @@ interface ButtonWrapperProps {
   children: ReactNode;
 }
 
-export function ButtonWrapper({ children }: ButtonWrapperProps) {
+export function BottomWrapper({ children }: ButtonWrapperProps) {
   return <Container>{children}</Container>;
 }
