@@ -1,4 +1,7 @@
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState } from "react";
+
+import { Player } from "../usePlayers";
+import { useToasts } from "../useToasts";
 
 export interface CreateGameData {
   name: string;
@@ -8,17 +11,51 @@ export interface CreateGameData {
   rule: number;
 }
 
-interface GamesContextData {
+export interface GameData extends CreateGameData {
+  id: number;
+}
+
+interface ChangePlayerOrder {
+  type: "up" | "down";
+  currentIndex: number;
+}
+
+interface GameContextData {
+  currentGame?: GameData;
+  playersOrder: Player[];
   createGame: (data: CreateGameData) => void;
+  addPlayer: (player: Player) => void;
+  addPlayers: (players: Player[]) => void;
+  handleSetCurrentGame: (id: number) => void;
+  handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
+  reset: () => void;
 }
 
 interface GameProviderProps {
   children: ReactNode;
 }
 
-const GameContext = createContext<GamesContextData>({} as GamesContextData);
+const GameContext = createContext<GameContextData>({} as GameContextData);
 
 const GameProvider = ({ children }: GameProviderProps) => {
+  const [currentGame, setCurrentGame] = useState<GameData | undefined>(() => {
+    const currentGame = localStorage.getItem("@peladeiros:currentGame");
+
+    if (!currentGame) return undefined;
+
+    return JSON.parse(currentGame);
+  });
+
+  const [playersOrder, setPlayersOrder] = useState<Player[]>(() => {
+    const playersOrder = localStorage.getItem("@peladeiros:playersOrder");
+
+    if (!playersOrder) return [];
+
+    return JSON.parse(playersOrder);
+  });
+
+  const { handleOpenToast } = useToasts();
+
   const createGame = (data: CreateGameData) => {
     const games = localStorage.getItem("@peladeiros:games");
 
@@ -38,14 +75,94 @@ const GameProvider = ({ children }: GameProviderProps) => {
     localStorage.setItem("@peladeiros:games", JSON.stringify(arrayGames));
   };
 
+  const handleSetCurrentGame = (id: number) => {
+    const games = localStorage.getItem("@peladeiros:games");
+
+    if (!games) return;
+
+    const arrayGames: GameData[] = JSON.parse(games);
+
+    const game = arrayGames.find((game) => game.id === id);
+
+    localStorage.setItem("@peladeiros:currentGame", JSON.stringify(game));
+
+    setCurrentGame(game);
+  };
+
+  const addPlayers = (players: Player[]) => {
+    setPlayersOrder((oldState) => [...oldState, ...players]);
+  };
+
+  const addPlayer = (player: Player) => {
+    const findPlayer = playersOrder.find(
+      (playerOrder) => playerOrder.id === player.id
+    );
+
+    if (findPlayer) {
+      handleOpenToast({
+        type: "error",
+        title: "Error",
+        message: "Jogador já adicionado",
+      });
+
+      return;
+    }
+    const newPlayer = [...playersOrder, player];
+    setPlayersOrder(newPlayer);
+    localStorage.setItem("@peladeiros:playersOrder", JSON.stringify(newPlayer));
+  };
+
+  const reset = () => {
+    localStorage.removeItem("@peladeiros:currentGame");
+    setCurrentGame(undefined);
+  };
+
+  const handleChangePlayerOrder = ({
+    type,
+    currentIndex,
+  }: ChangePlayerOrder) => {
+    const currentValue = playersOrder[currentIndex];
+
+    const auxValue =
+      playersOrder[type === "up" ? currentIndex - 1 : currentIndex + 1];
+
+    const newPlayersOrder = playersOrder.map((player, index) => {
+      if (index === currentIndex) return auxValue;
+
+      if (index === currentIndex - 1 && type === "up") return currentValue;
+
+      if (index === currentIndex + 1 && type === "down") return currentValue;
+
+      return player;
+    });
+
+    setPlayersOrder(newPlayersOrder);
+
+    localStorage.setItem(
+      "@peladeiros:playersOrder",
+      JSON.stringify(newPlayersOrder)
+    );
+  };
+
   return (
-    <GameContext.Provider value={{ createGame }}>
+    <GameContext.Provider
+      value={{
+        currentGame,
+        createGame,
+        handleSetCurrentGame,
+        playersOrder,
+        addPlayers,
+        addPlayer,
+        reset,
+        handleChangePlayerOrder,
+      }}
+    >
       {children}
     </GameContext.Provider>
   );
 };
 
-function useGame(): GamesContextData {
+function useGame(): GameContextData {
   const context = useContext(GameContext);
 
   if (!context) {

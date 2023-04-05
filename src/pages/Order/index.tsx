@@ -1,20 +1,18 @@
-import { useMemo } from "react";
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ArrowCircleLeft } from "phosphor-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useGame } from "../../contexts/useGames";
-import { useToasts } from "../../contexts/useToasts";
 import { usePlayer } from "../../contexts/usePlayers";
 
 import { Back } from "../../components/Back";
-import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
+import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
-import { BottomWrapper } from "../../components/BottomWrapper";
+import { useGame } from "../../contexts/useGames";
 import { PageContainer } from "../../components/PageContainer";
+import { BottomWrapper } from "../../components/BottomWrapper";
 import { ListPlayers } from "../../components/Players/ListPlayers";
 
 import { ButtonsContainer } from "./styles";
@@ -25,16 +23,26 @@ const FormSchema = zod.object({
 
 type FormData = zod.infer<typeof FormSchema>;
 
-export function Players() {
+export function Order() {
+  const { reset } = useGame();
   const navigate = useNavigate();
-  const { currentGame } = useGame();
-  const { createPlayer, findPlayerByName, getFilteredPlayers } = usePlayer();
 
-  const { handleOpenToast } = useToasts();
+  const { currentGame, playersOrder, addPlayer } = useGame();
 
   const { register, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
+
+  const { createPlayer, findPlayerByName } = usePlayer();
+
+  const handleNavigateToPlayers = () => {
+    navigate("/players");
+  };
+
+  const handleGoBack = () => {
+    reset();
+    navigate("/games");
+  };
 
   const handleSave = ({ name }: FormData) => {
     if (!currentGame) return;
@@ -42,32 +50,26 @@ export function Players() {
     const player = findPlayerByName(name);
 
     if (!player) {
-      createPlayer({
+      const newPlayer = createPlayer({
         name,
         gameId: currentGame.id,
       });
 
-      setValue("name", "");
-
-      return;
+      addPlayer({
+        id: newPlayer.id,
+        name: newPlayer.name,
+        gameId: newPlayer.gameId,
+      });
+    } else {
+      addPlayer({
+        id: player.id,
+        name: player.name,
+        gameId: player.gameId,
+      });
     }
 
-    handleOpenToast({
-      type: "error",
-      title: "Error",
-      message: "Jogador já cadastrado",
-    });
+    setValue("name", "");
   };
-
-  const handleGoBack = () => {
-    navigate("/order");
-  };
-
-  const players = useMemo(() => {
-    if (!currentGame) return [];
-
-    return getFilteredPlayers(currentGame.id);
-  }, [currentGame, getFilteredPlayers]);
 
   return (
     <PageContainer>
@@ -76,12 +78,13 @@ export function Players() {
       </Back>
       <Title>Jogadores</Title>
 
-      <ListPlayers players={players} />
+      <ListPlayers isSortable={true} players={playersOrder} />
 
       <BottomWrapper>
         <form onSubmit={handleSubmit(handleSave)}>
           <Input id="name" placeholder="Nome" {...register("name")} />
           <ButtonsContainer>
+            <Button onClick={handleNavigateToPlayers}>Salvos</Button>
             <Button type="submit">Inserir</Button>
           </ButtonsContainer>
         </form>

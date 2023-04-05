@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { useGame } from "../../contexts/useGames";
 
+import { Back } from "../../components/Back";
 import { Text } from "../../components/Text";
 import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { RadioGroup } from "../../components/RadioGroup";
-import { ButtonWrapper } from "../../components/ButtonWrapper";
+import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
 
 import { Form, InputsWrapper } from "./styles";
@@ -21,6 +23,7 @@ interface FormData {
 }
 
 export function CreateGame() {
+  const navigate = useNavigate();
   const [rule, setRule] = useState(0);
 
   const { register, handleSubmit, setValue } = useForm<FormData>();
@@ -39,8 +42,14 @@ export function CreateGame() {
     setValue("name", "");
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <PageContainer>
+      <Back onClick={handleGoBack} />
+
       <Title>Novo</Title>
 
       <Form>
@@ -81,9 +90,9 @@ export function CreateGame() {
         />
       </Form>
 
-      <ButtonWrapper>
+      <BottomWrapper>
         <Button onClick={handleSubmit(handleSave)}>Salvar</Button>
-      </ButtonWrapper>
+      </BottomWrapper>
     </PageContainer>
   );
 }
