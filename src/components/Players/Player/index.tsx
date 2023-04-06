@@ -19,6 +19,7 @@ export function Player({
   isSortable = false,
 }: playerProps) {
   const { handleChangePlayerOrder } = useGame();
+  const { handleRemovePlayerOrder } = useGame();
 
   const handleUp = () => {
     handleChangePlayerOrder({ type: "up", currentIndex: position - 1 });
@@ -26,6 +27,10 @@ export function Player({
 
   const handleDown = () => {
     handleChangePlayerOrder({ type: "down", currentIndex: position - 1 });
+  };
+
+  const handleRemove = () => {
+    handleRemovePlayerOrder(position - 1);
   };
 
   return (
@@ -51,7 +56,7 @@ export function Player({
           )}
 
           <button>
-            <FiX size={20} />
+            <FiX size={20} onClick={handleRemove} />
           </button>
         </div>
       )}

@@ -27,7 +27,9 @@ interface GameContextData {
   addPlayer: (player: Player) => void;
   addPlayers: (players: Player[]) => void;
   handleSetCurrentGame: (id: number) => void;
+  handleRemovePlayerOrder: (index: number) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
+
   reset: () => void;
 }
 
@@ -144,6 +146,19 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
+  const handleRemovePlayerOrder = (currentIndex: number) => {
+    const newPlayersOrder = playersOrder.filter(
+      (_, index) => index !== currentIndex
+    );
+
+    setPlayersOrder(newPlayersOrder);
+
+    localStorage.setItem(
+      "@peladeiros:playersOrder",
+      JSON.stringify(newPlayersOrder)
+    );
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -155,6 +170,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         addPlayer,
         reset,
         handleChangePlayerOrder,
+        handleRemovePlayerOrder,
       }}
     >
       {children}
