@@ -1,4 +1,12 @@
-import { FiChevronDown, FiChevronUp, FiX } from "react-icons/fi";
+import { useMemo } from "react";
+import {
+  FiChevronDown,
+  FiChevronUp,
+  FiX,
+  FiPlus,
+  FiMinus,
+} from "react-icons/fi";
+
 import { useGame } from "../../../contexts/useGames";
 
 import { Text } from "../../Text";
@@ -6,6 +14,7 @@ import { Text } from "../../Text";
 import { Container } from "./styles";
 
 interface playerProps {
+  id: number;
   name: string;
   position: number;
   lastPosition: number;
@@ -13,13 +22,19 @@ interface playerProps {
 }
 
 export function Player({
+  id,
   name,
   position,
   lastPosition,
   isSortable = false,
 }: playerProps) {
-  const { handleChangePlayerOrder } = useGame();
-  const { handleRemovePlayerOrder } = useGame();
+  const {
+    currentGame,
+    playersOrder,
+    handleChangePlayerOrder,
+    handleRemovePlayerOrder,
+    handleAddPlayerOrder,
+  } = useGame();
 
   const handleUp = () => {
     handleChangePlayerOrder({ type: "up", currentIndex: position - 1 });
@@ -30,18 +45,37 @@ export function Player({
   };
 
   const handleRemove = () => {
-    handleRemovePlayerOrder(position - 1);
+    handleRemovePlayerOrder(id);
   };
 
+  const handleToggle = (id: number) => {
+    if (!currentGame) return;
+
+    if (isSelectable) {
+      handleRemove();
+      return;
+    }
+
+    handleAddPlayerOrder({
+      id,
+      name,
+      gameId: currentGame.id,
+    });
+  };
+
+  const isSelectable = useMemo(() => {
+    return playersOrder.some((player) => player.id === id);
+  }, [playersOrder, id]);
+
   return (
-    <Container>
+    <Container isSelectable={isSelectable}>
       <div>
         <Text>
           {position}. {name}
         </Text>
       </div>
 
-      {isSortable && (
+      {isSortable ? (
         <div>
           {position !== 1 && (
             <button onClick={handleUp}>
@@ -55,10 +89,14 @@ export function Player({
             </button>
           )}
 
-          <button>
-            <FiX size={20} onClick={handleRemove} />
+          <button onClick={handleRemove}>
+            <FiX size={20} />
           </button>
         </div>
+      ) : (
+        <button onClick={() => handleToggle(id)}>
+          {isSelectable ? <FiMinus size={20} /> : <FiPlus size={20} />}
+        </button>
       )}
     </Container>
   );

@@ -27,7 +27,7 @@ export function Order() {
   const { reset } = useGame();
   const navigate = useNavigate();
 
-  const { currentGame, playersOrder, addPlayer } = useGame();
+  const { currentGame, playersOrder, handleAddPlayerOrder } = useGame();
 
   const { register, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -55,13 +55,13 @@ export function Order() {
         gameId: currentGame.id,
       });
 
-      addPlayer({
+      handleAddPlayerOrder({
         id: newPlayer.id,
         name: newPlayer.name,
         gameId: newPlayer.gameId,
       });
     } else {
-      addPlayer({
+      handleAddPlayerOrder({
         id: player.id,
         name: player.name,
         gameId: player.gameId,

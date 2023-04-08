@@ -24,10 +24,9 @@ interface GameContextData {
   currentGame?: GameData;
   playersOrder: Player[];
   createGame: (data: CreateGameData) => void;
-  addPlayer: (player: Player) => void;
-  addPlayers: (players: Player[]) => void;
+  handleAddPlayerOrder: (player: Player) => void;
   handleSetCurrentGame: (id: number) => void;
-  handleRemovePlayerOrder: (index: number) => void;
+  handleRemovePlayerOrder: (id: number) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
 
   reset: () => void;
@@ -91,11 +90,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     setCurrentGame(game);
   };
 
-  const addPlayers = (players: Player[]) => {
-    setPlayersOrder((oldState) => [...oldState, ...players]);
-  };
-
-  const addPlayer = (player: Player) => {
+  const handleAddPlayerOrder = (player: Player) => {
     const findPlayer = playersOrder.find(
       (playerOrder) => playerOrder.id === player.id
     );
@@ -146,10 +141,8 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleRemovePlayerOrder = (currentIndex: number) => {
-    const newPlayersOrder = playersOrder.filter(
-      (_, index) => index !== currentIndex
-    );
+  const handleRemovePlayerOrder = (id: number) => {
+    const newPlayersOrder = playersOrder.filter((player) => player.id !== id);
 
     setPlayersOrder(newPlayersOrder);
 
@@ -166,8 +159,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         createGame,
         handleSetCurrentGame,
         playersOrder,
-        addPlayers,
-        addPlayer,
+        handleAddPlayerOrder,
         reset,
         handleChangePlayerOrder,
         handleRemovePlayerOrder,
