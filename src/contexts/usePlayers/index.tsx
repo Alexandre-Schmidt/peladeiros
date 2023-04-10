@@ -14,6 +14,7 @@ interface PlayersContextData {
   getFilteredPlayers: (currentGameId: number) => Player[];
   createPlayer: (data: CreatePlayerData) => Player;
   findPlayerByName: (name: string) => Player | undefined;
+  handleRemovePlayer: (id: number) => void;
 }
 
 interface PlayerProviderProps {
@@ -32,6 +33,14 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
 
     return JSON.parse(playersData);
   });
+
+  const handleRemovePlayer = (id: number) => {
+    const newPlayers = players.filter((player) => player.id !== id);
+
+    setPlayers(newPlayers);
+
+    localStorage.setItem("@peladeiros:players", JSON.stringify(newPlayers));
+  };
 
   const createPlayer = ({ name, gameId }: CreatePlayerData) => {
     const players = localStorage.getItem("@peladeiros:players");
@@ -79,7 +88,12 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
 
   return (
     <PlayerContext.Provider
-      value={{ players, createPlayer, findPlayerByName, getFilteredPlayers }}
+      value={{
+        players,
+        createPlayer,
+        findPlayerByName,
+        getFilteredPlayers,
+      }}
     >
       {children}
     </PlayerContext.Provider>

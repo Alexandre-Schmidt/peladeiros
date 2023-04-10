@@ -23,7 +23,14 @@ export function Players() {
   const players = useMemo(() => {
     if (!currentGame) return [];
 
-    return getFilteredPlayers(currentGame.id);
+    return getFilteredPlayers(currentGame.id).sort((a, b) => {
+      const nameA = a.name.toUpperCase();
+      const nameB = b.name.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      return 1;
+    });
   }, [currentGame, getFilteredPlayers]);
 
   return (
