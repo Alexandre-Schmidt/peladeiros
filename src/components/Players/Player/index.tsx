@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   FiChevronDown,
   FiChevronUp,
   FiX,
   FiPlus,
   FiMinus,
+  FiTrash,
 } from "react-icons/fi";
 
 import { useGame } from "../../../contexts/useGames";
@@ -12,6 +13,8 @@ import { useGame } from "../../../contexts/useGames";
 import { Text } from "../../Text";
 
 import { Container } from "./styles";
+import { usePlayer } from "../../../contexts/usePlayers";
+import { Warning } from "../../Warning";
 
 interface playerProps {
   id: number;
@@ -28,6 +31,8 @@ export function Player({
   lastPosition,
   isSortable = false,
 }: playerProps) {
+  const [isWarningOpen, setIsWarningOpen] = useState(false);
+
   const {
     currentGame,
     playersOrder,
@@ -35,6 +40,8 @@ export function Player({
     handleRemovePlayerOrder,
     handleAddPlayerOrder,
   } = useGame();
+
+  const { deletePlayer } = usePlayer();
 
   const handleUp = () => {
     handleChangePlayerOrder({ type: "up", currentIndex: position - 1 });
@@ -48,7 +55,20 @@ export function Player({
     handleRemovePlayerOrder(id);
   };
 
-  const handleToggle = (id: number) => {
+  const handleDelete = () => {
+    deletePlayer(id);
+    setIsWarningOpen(false);
+  };
+
+  const handleOpenWarning = () => {
+    setIsWarningOpen(true);
+  };
+
+  const handleCloseWarning = () => {
+    setIsWarningOpen(false);
+  };
+
+  const handleToggle = () => {
     if (!currentGame) return;
 
     if (isSelectable) {
@@ -68,7 +88,7 @@ export function Player({
   }, [playersOrder, id]);
 
   return (
-    <Container isSelectable={isSelectable}>
+    <Container isSelectable={isSelectable && !isSortable}>
       <div>
         <Text>
           {position}. {name}
@@ -94,10 +114,24 @@ export function Player({
           </button>
         </div>
       ) : (
-        <button onClick={() => handleToggle(id)}>
-          {isSelectable ? <FiMinus size={20} /> : <FiPlus size={20} />}
-        </button>
+        <div>
+          <button onClick={handleToggle}>
+            {isSelectable ? <FiMinus size={20} /> : <FiPlus size={20} />}
+          </button>
+          <button onClick={handleOpenWarning}>
+            <FiTrash size={20} color="#ef4444" />
+          </button>
+        </div>
       )}
+
+      <Warning
+        isOpen={isWarningOpen}
+        title="Atenção!"
+        message="Você tem certeza que deseja excluir este jogador?"
+        onClose={handleCloseWarning}
+        onCancel={handleCloseWarning}
+        onConfirm={handleDelete}
+      />
     </Container>
   );
 }
