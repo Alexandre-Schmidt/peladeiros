@@ -57,6 +57,7 @@ export function Player({
 
   const handleDelete = () => {
     deletePlayer(id);
+    handleRemove();
     setIsWarningOpen(false);
   };
 

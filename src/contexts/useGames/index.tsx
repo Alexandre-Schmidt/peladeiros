@@ -6,8 +6,8 @@ import { useToasts } from "../useToasts";
 export interface CreateGameData {
   name: string;
   playersNumber: number;
-  duration: string;
-  goals: string;
+  duration: number;
+  goals: number;
   rule: number;
 }
 
