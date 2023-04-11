@@ -15,6 +15,7 @@ export function ListPlayers({ players, isSortable }: ListPlayersProps) {
       {players.map((player, index) => (
         <PlayerComponent
           key={player.id}
+          id={player.id}
           name={player.name}
           position={index + 1}
           isSortable={isSortable}
