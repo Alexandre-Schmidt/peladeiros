@@ -18,8 +18,8 @@ import { Form, InputsWrapper } from "./styles";
 interface FormData {
   name: string;
   playersNumber: number;
-  duration: string;
-  goals: string;
+  duration: number;
+  goals: number;
 }
 
 export function CreateGame() {

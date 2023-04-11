@@ -1,4 +1,5 @@
 import { createContext, useContext, ReactNode, useState } from "react";
+import { createID } from "../../utils/createID";
 
 export interface CreatePlayerData {
   name: string;
@@ -14,6 +15,7 @@ interface PlayersContextData {
   getFilteredPlayers: (currentGameId: number) => Player[];
   createPlayer: (data: CreatePlayerData) => Player;
   findPlayerByName: (name: string) => Player | undefined;
+  deletePlayer: (id: number) => void;
 }
 
 interface PlayerProviderProps {
@@ -37,7 +39,7 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     const players = localStorage.getItem("@peladeiros:players");
 
     if (!players) {
-      const player = { id: 1, name, gameId };
+      const player = { id: createID(), name, gameId };
 
       localStorage.setItem("@peladeiros:players", JSON.stringify([player]));
 
@@ -48,7 +50,7 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
 
     const arrayPlayers: Player[] = JSON.parse(players);
 
-    const player = { id: arrayPlayers.length + 1, name, gameId };
+    const player = { id: createID(), name, gameId };
 
     arrayPlayers.push(player);
 
@@ -67,7 +69,15 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     const arrayPlayers: Player[] = JSON.parse(findPlayers);
 
     const player = arrayPlayers.find(
-      (item) => item.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+      (item) =>
+        item.name
+          .toLocaleLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") ===
+        name
+          .toLocaleLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
     );
 
     return player;
@@ -77,9 +87,23 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return players.filter((player) => player.gameId === currentGameId);
   };
 
+  const deletePlayer = (id: number) => {
+    const newPlayers = players.filter((player) => player.id !== id);
+
+    setPlayers(newPlayers);
+
+    localStorage.setItem("@peladeiros:players", JSON.stringify(newPlayers));
+  };
+
   return (
     <PlayerContext.Provider
-      value={{ players, createPlayer, findPlayerByName, getFilteredPlayers }}
+      value={{
+        players,
+        createPlayer,
+        findPlayerByName,
+        getFilteredPlayers,
+        deletePlayer,
+      }}
     >
       {children}
     </PlayerContext.Provider>
