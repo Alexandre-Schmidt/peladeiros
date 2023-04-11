@@ -1,7 +1,8 @@
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ArrowCircleLeft } from "phosphor-react";
+import { ArrowFatLineLeft } from "phosphor-react";
+import { GiWhistle } from "react-icons/gi";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { usePlayer } from "../../contexts/usePlayers";
@@ -15,7 +16,7 @@ import { PageContainer } from "../../components/PageContainer";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { ListPlayers } from "../../components/Players/ListPlayers";
 
-import { ButtonsContainer } from "./styles";
+import { ButtonStart, ButtonsContainer, Start } from "./styles";
 
 const FormSchema = zod.object({
   name: zod.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
@@ -39,6 +40,9 @@ export function Order() {
     navigate("/players");
   };
 
+  const handleNavigateToSoccer = () => {
+    navigate("/soccer");
+  };
   const handleGoBack = () => {
     reset();
     navigate("/games");
@@ -71,11 +75,25 @@ export function Order() {
     setValue("name", "");
   };
 
+  const isHasTeam =
+    playersOrder.length >= Number(currentGame?.playersNumber) * 2;
+
   return (
     <PageContainer>
       <Back onClick={handleGoBack}>
-        <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
+        <ArrowFatLineLeft size={40} color="#4cb963" weight="fill" />
       </Back>
+
+      <Start>
+        <ButtonStart
+          onClick={handleNavigateToSoccer}
+          type="submit"
+          disabled={!isHasTeam}
+        >
+          <GiWhistle size={40} color="#EBF1F6" />
+        </ButtonStart>
+      </Start>
+
       <Title>Jogadores</Title>
 
       <ListPlayers isSortable={true} players={playersOrder} />
