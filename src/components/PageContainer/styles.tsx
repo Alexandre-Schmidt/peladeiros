@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  pb: number;
+}
+
+export const Container = styled.div<ContainerProps>`
   height: 100%;
   padding-top: 2rem;
-  padding-bottom: 5.875rem;
+  padding-bottom: ${({ pb }) => `${pb}rem`};
 
   position: relative;
 

@@ -33,6 +33,7 @@ export function Players() {
       <Back onClick={handleGoBack}>
         <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
       </Back>
+
       <Title>Jogadores</Title>
 
       <ListPlayers players={players} />

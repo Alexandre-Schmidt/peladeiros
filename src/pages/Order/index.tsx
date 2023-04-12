@@ -79,7 +79,7 @@ export function Order() {
     playersOrder.length >= Number(currentGame?.playersNumber) * 2;
 
   return (
-    <PageContainer>
+    <PageContainer pb={10}>
       <Back onClick={handleGoBack}>
         <ArrowFatLineLeft size={40} color="#4cb963" weight="fill" />
       </Back>
