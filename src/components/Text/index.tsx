@@ -4,7 +4,7 @@ import { Container } from "./styles";
 
 interface TextProps {
   align?: "left" | "center" | "right" | "justify";
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   weight?: 400 | 500 | 700;
   mt?: number;
   mb?: number;

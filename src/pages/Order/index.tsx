@@ -1,7 +1,6 @@
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ArrowFatLineLeft } from "phosphor-react";
 import { GiWhistle } from "react-icons/gi";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -41,7 +40,7 @@ export function Order() {
   };
 
   const handleNavigateToSoccer = () => {
-    navigate("/soccer");
+    navigate("/match");
   };
   const handleGoBack = () => {
     reset();
@@ -79,10 +78,8 @@ export function Order() {
     playersOrder.length >= Number(currentGame?.playersNumber) * 2;
 
   return (
-    <PageContainer>
-      <Back onClick={handleGoBack}>
-        <ArrowFatLineLeft size={40} color="#4cb963" weight="fill" />
-      </Back>
+    <PageContainer pb={10}>
+      <Back onClick={handleGoBack} />
 
       <Start>
         <ButtonStart
