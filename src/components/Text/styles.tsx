@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 interface TextContainerProps {
   align: "left" | "center" | "right" | "justify";
-  size: "xs" | "sm" | "md" | "lg";
+  size: "xs" | "sm" | "md" | "lg" | "xl";
   weight: 400 | 500 | 700;
   mt: number;
   mb: number;
@@ -15,6 +15,7 @@ const textSize = {
   sm: "0.875rem",
   md: "1rem",
   lg: "1.125rem",
+  xl: "1.5rem",
 };
 
 export const Container = styled.p<TextContainerProps>`

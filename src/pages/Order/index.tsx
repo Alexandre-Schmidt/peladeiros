@@ -40,7 +40,7 @@ export function Order() {
   };
 
   const handleNavigateToSoccer = () => {
-    navigate("/soccer");
+    navigate("/match");
   };
   const handleGoBack = () => {
     reset();
