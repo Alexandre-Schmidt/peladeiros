@@ -7,7 +7,7 @@ import { Games } from "../pages/Games";
 import { Order } from "../pages/Order";
 import { Players } from "../pages/Players";
 import { Welcome } from "../pages/Welcome";
-import { Soccer } from "../pages/Soccer";
+import { Match } from "../pages/Match";
 
 export function Router() {
   return (
@@ -18,7 +18,7 @@ export function Router() {
         <Route path="/games/create" element={<CreateGame />} />
         <Route path="/players" element={<Players />} />
         <Route path="/order" element={<Order />} />
-        <Route path="/soccer" element={<Soccer />} />
+        <Route path="/match" element={<Match />} />
       </Route>
     </Routes>
   );
