@@ -1,41 +1,144 @@
 import { useState } from "react";
+import { X } from "phosphor-react";
+import { IoIosFootball } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
+import { Back } from "../../components/Back";
 import { Title } from "../../components/Title";
 import { PageContainer } from "../../components/PageContainer";
 
-import { Div1, Div2 } from "./styles";
+import {
+  Shirt,
+  ContainerTeams,
+  ContainerTeamLeft,
+  ContainerTeamRight,
+  ContainerScoreboard,
+  ShirtBackgroundLeft,
+  ShirtBackgroundRight,
+  ContainerShirtButton,
+} from "./styles";
 
 export function Soccer() {
-  const [showColors, setShowColors] = useState(false);
-  const [colorSelected, setColorSelected] = useState(0);
+  const [showColorsShirtRight, setShowColorsShirtRight] = useState(false);
+  const [colorSelectedRight, setColorSelectedRight] = useState(3);
+  const [scoreRight, setScoreRight] = useState(0);
+
+  const [showColorsShirtLeft, setShowColorsShirtLeft] = useState(false);
+  const [colorSelectedLeft, setColorSelectedLeft] = useState(4);
+  const [scoreLeft, setScoreLeft] = useState(0);
+
+  const navigate = useNavigate();
 
   const colors = ["#4cb963", "#f2c94c", "#f2994a", "#eb5757", "#2f80ed"];
 
-  const handleSelectColor = (color: number) => {
-    setColorSelected(color);
-    setShowColors(false);
+  const handleSelectColorRight = (color: number) => {
+    setColorSelectedRight(color);
+    setShowColorsShirtRight(false);
   };
+
+  const handleSelectColorLeft = (color: number) => {
+    setColorSelectedLeft(color);
+    setShowColorsShirtLeft(false);
+  };
+
+  const handleCounterScoreLeft = () => {
+    setScoreLeft((score) => {
+      return score + 1;
+    });
+  };
+
+  const handleCounterScoreRight = () => {
+    setScoreRight((score) => {
+      return score + 1;
+    });
+  };
+
+  const handleGoBack = () => {
+    navigate("/order");
+  };
+
   return (
     <PageContainer>
-      <Title>Partida</Title>
+      <Back onClick={handleGoBack} />
+      <Title>00:00</Title>
 
-      <Div1 color={colors[colorSelected]}>
-        <Div2 onClick={() => setShowColors(true)}></Div2>
-      </Div1>
+      <ContainerTeams>
+        <ContainerTeamLeft>
+          <ShirtBackgroundLeft color={colors[colorSelectedLeft]}>
+            <Shirt onClick={() => setShowColorsShirtLeft(true)} />
+          </ShirtBackgroundLeft>
 
-      {showColors && (
-        <div
-          style={{
-            marginTop: 10,
-          }}
-        >
-          <button onClick={() => handleSelectColor(0)}>Verde</button>
-          <button onClick={() => handleSelectColor(1)}>Amarelo</button>
-          <button onClick={() => handleSelectColor(2)}>Laranja</button>
-          <button onClick={() => handleSelectColor(3)}>Vermelho</button>
-          <button onClick={() => handleSelectColor(4)}>Azul</button>
-        </div>
-      )}
+          {showColorsShirtLeft && (
+            <ContainerShirtButton>
+              <button
+                className="green"
+                onClick={() => handleSelectColorLeft(0)}
+              />
+              <button
+                className="yellow"
+                onClick={() => handleSelectColorLeft(1)}
+              />
+              <button
+                className="orange"
+                onClick={() => handleSelectColorLeft(2)}
+              />
+              <button
+                className="red"
+                onClick={() => handleSelectColorLeft(3)}
+              />
+              <button
+                className="blue"
+                onClick={() => handleSelectColorLeft(4)}
+              />
+            </ContainerShirtButton>
+          )}
+
+          <button onClick={handleCounterScoreLeft}>
+            <IoIosFootball size={40} color="#4cb963" />
+          </button>
+        </ContainerTeamLeft>
+
+        <ContainerScoreboard>
+          <Title>{scoreLeft}</Title>
+          <X size={45} weight="bold" />
+          <Title>{scoreRight}</Title>
+        </ContainerScoreboard>
+
+        <ContainerTeamRight>
+          <ShirtBackgroundRight color={colors[colorSelectedRight]}>
+            <Shirt onClick={() => setShowColorsShirtRight(true)} />
+          </ShirtBackgroundRight>
+
+          {showColorsShirtRight && (
+            <ContainerShirtButton>
+              <button
+                className="green"
+                onClick={() => handleSelectColorRight(0)}
+              />
+              <button
+                className="yellow"
+                onClick={() => handleSelectColorRight(1)}
+              />
+              <button
+                className="orange"
+                onClick={() => handleSelectColorRight(2)}
+              />
+              <button
+                className="red"
+                onClick={() => handleSelectColorRight(3)}
+              />
+              <button
+                className="blue"
+                onClick={() => handleSelectColorRight(4)}
+              />
+            </ContainerShirtButton>
+          )}
+
+          <button onClick={handleCounterScoreRight}>
+            <IoIosFootball size={40} color="#4cb963" />
+          </button>
+        </ContainerTeamRight>
+      </ContainerTeams>
     </PageContainer>
   );
 }

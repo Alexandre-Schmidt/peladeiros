@@ -1,7 +1,6 @@
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ArrowFatLineLeft } from "phosphor-react";
 import { GiWhistle } from "react-icons/gi";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -80,9 +79,7 @@ export function Order() {
 
   return (
     <PageContainer pb={10}>
-      <Back onClick={handleGoBack}>
-        <ArrowFatLineLeft size={40} color="#4cb963" weight="fill" />
-      </Back>
+      <Back onClick={handleGoBack} />
 
       <Start>
         <ButtonStart
