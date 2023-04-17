@@ -1,25 +1,8 @@
 import styled from "styled-components";
 
-import shirt from "../../assets/shirt.png";
-
-type Colors = { [key: string]: string };
-
-interface ShirtBackgroundProps {
-  color: string;
-}
-
 interface ShirtButtonProps {
   color: string;
 }
-
-const colors: Colors = {
-  green: "#4cb963",
-  yellow: "#f2c94c",
-  orange: "#f2994a",
-  red: "#eb5757",
-  blue: "#2f80ed",
-  black: "#000000",
-};
 
 export const ContainerTeam = styled.div`
   display: flex;
@@ -37,11 +20,9 @@ export const ContainerTeam = styled.div`
   }
 `;
 
-export const ShirtBackground = styled.div<ShirtBackgroundProps>`
+export const ShirtWrapper = styled.div`
   height: 96px;
   width: 82px;
-
-  background-color: ${({ color }) => colors[color]};
 `;
 
 export const ContainerShirtButton = styled.div`
@@ -60,14 +41,5 @@ export const ShirtButton = styled.div<ShirtButtonProps>`
   border: solid 1px;
   border-radius: 50%;
 
-  background-color: ${({ color }) => colors[color]};
-`;
-
-export const Shirt = styled.div`
-  height: 96px;
-  width: 82px;
-
-  background-image: url(${shirt});
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-color: ${({ color }) => color};
 `;
