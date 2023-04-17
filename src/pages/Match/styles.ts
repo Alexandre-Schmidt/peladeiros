@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ContainerTeams = styled.div`
-  margin-top: 1rem;
+  margin-top: 3rem;
 
   display: flex;
   align-items: center;

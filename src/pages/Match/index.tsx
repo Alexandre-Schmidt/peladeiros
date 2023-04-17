@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { X, Timer } from "phosphor-react";
+import { X } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 
 import { useGame } from "../../contexts/useGames";
