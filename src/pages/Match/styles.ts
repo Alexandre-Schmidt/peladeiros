@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ContainerTeams = styled.div`
-  margin-top: 1rem;
+  margin-top: 3rem;
 
   display: flex;
   align-items: center;
@@ -15,4 +15,14 @@ export const ContainerScoreboard = styled.div`
   justify-content: center;
 
   gap: 1rem;
+`;
+
+export const Stopwatch = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonsContainer = styled.div`
+  margin: 0 9rem;
 `;

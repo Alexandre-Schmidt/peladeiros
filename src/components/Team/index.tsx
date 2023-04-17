@@ -4,10 +4,11 @@ import { IoIosFootball } from "react-icons/io";
 import {
   ContainerShirtButton,
   ContainerTeam,
-  Shirt,
-  ShirtBackground,
+  ShirtWrapper,
   ShirtButton,
 } from "./styles";
+
+import { Shirt } from "../Shirt";
 
 interface TeamProps {
   handleCounterScore: () => void;
@@ -19,7 +20,14 @@ export function Team({ handleCounterScore }: TeamProps) {
     Math.floor(Math.random() * 6)
   );
 
-  const colors = ["green", "yellow", "orange", "red", "blue", "black"];
+  const colors = [
+    "#4cb963",
+    "#f2c94c",
+    "#f2994a",
+    "#eb5757",
+    "#2f80ed",
+    "#000000",
+  ];
 
   const handleSelectColor = (color: number) => {
     setColorSelected(color);
@@ -32,9 +40,12 @@ export function Team({ handleCounterScore }: TeamProps) {
 
   return (
     <ContainerTeam>
-      <ShirtBackground color={colors[colorSelected]}>
-        <Shirt onClick={() => setShowColorsShirt(true)} />
-      </ShirtBackground>
+      <ShirtWrapper>
+        <Shirt
+          color={colors[colorSelected]}
+          onClick={() => setShowColorsShirt(true)}
+        />
+      </ShirtWrapper>
 
       {showColorsShirt && (
         <ContainerShirtButton>
