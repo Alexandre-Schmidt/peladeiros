@@ -5,12 +5,12 @@ import { GiWhistle } from "react-icons/gi";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { usePlayer } from "../../contexts/usePlayers";
+import { useGame } from "../../contexts/useGames";
 
 import { Back } from "../../components/Back";
 import { Input } from "../../components/Input";
 import { Title } from "../../components/Title";
 import { Button } from "../../components/Button";
-import { useGame } from "../../contexts/useGames";
 import { PageContainer } from "../../components/PageContainer";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { ListPlayers } from "../../components/Players/ListPlayers";

@@ -1,20 +1,62 @@
-import { useState } from "react";
-import { X } from "phosphor-react";
+import { useEffect, useState } from "react";
+import { X, Timer } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 
-import { Back } from "../../components/Back";
-import { Title } from "../../components/Title";
-import { PageContainer } from "../../components/PageContainer";
+import { useGame } from "../../contexts/useGames";
 
-import { ContainerTeams, ContainerScoreboard } from "./styles";
+import { Back } from "../../components/Back";
 import { Team } from "../../components/Team";
 import { Text } from "../../components/Text";
+import { Button } from "../../components/Button";
+import { PageContainer } from "../../components/PageContainer";
+
+import {
+  ContainerTeams,
+  ContainerScoreboard,
+  Stopwatch,
+  ButtonsContainer,
+} from "./styles";
 
 export function Match() {
+  const { currentGame } = useGame();
+  const navigate = useNavigate();
+
   const [scoreLeft, setScoreLeft] = useState(0);
   const [scoreRight, setScoreRight] = useState(0);
 
-  const navigate = useNavigate();
+  const totalSeconds = currentGame ? currentGame.duration * 60 : 0;
+
+  const [timeLeft, setTimeLeft] = useState(totalSeconds);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let countdownInterval: number;
+
+    if (isRunning) {
+      countdownInterval = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(countdownInterval);
+  }, [isRunning, timeLeft]);
+
+  const displayTime = () => {
+    const displayMinutes = Math.floor(timeLeft / 60)
+      .toString()
+      .padStart(2, "0");
+    const displaySeconds = (timeLeft % 60).toString().padStart(2, "0");
+    return `${displayMinutes}:${displaySeconds}`;
+  };
+
+  const handleStart = () => {
+    setIsRunning(true);
+  };
+
+  const handleStop = () => {
+    setIsRunning(false);
+    setTimeLeft(totalSeconds);
+  };
 
   const handleGoBack = () => {
     navigate("/order");
@@ -24,7 +66,9 @@ export function Match() {
     <PageContainer>
       <Back onClick={handleGoBack} />
 
-      <Title>00:00</Title>
+      <Stopwatch>
+        <Text size="xl">{displayTime()}</Text>
+      </Stopwatch>
 
       <ContainerTeams>
         <Team handleCounterScore={() => setScoreLeft(scoreLeft + 1)} />
@@ -39,6 +83,19 @@ export function Match() {
 
         <Team handleCounterScore={() => setScoreRight(scoreRight + 1)} />
       </ContainerTeams>
+      {/* <button>
+        <Timer size={32} weight="fill" />
+      </button> */}
+
+      {isRunning ? (
+        <ButtonsContainer>
+          <Button onClick={handleStop}>Parar</Button>
+        </ButtonsContainer>
+      ) : (
+        <ButtonsContainer>
+          <Button onClick={handleStart}>Iniciar</Button>
+        </ButtonsContainer>
+      )}
     </PageContainer>
   );
 }
