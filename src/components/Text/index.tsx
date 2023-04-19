@@ -11,6 +11,7 @@ interface TextProps {
   ml?: number;
   mr?: number;
   children: ReactNode;
+  variant?: "primary" | "secondary";
 }
 
 export function Text({
@@ -22,6 +23,7 @@ export function Text({
   ml = 0,
   mr = 0,
   children,
+  variant = "primary",
 }: TextProps) {
   return (
     <Container
@@ -32,6 +34,7 @@ export function Text({
       mb={mb}
       ml={ml}
       mr={mr}
+      variant={variant}
     >
       {children}
     </Container>
