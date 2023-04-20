@@ -14,3 +14,7 @@ export const ContainerScoreboard = styled.div`
 
   gap: 1rem;
 `;
+
+export const TabsContainer = styled.div`
+  margin-top: 2rem;
+`;
