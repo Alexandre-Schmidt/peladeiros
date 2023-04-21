@@ -22,6 +22,7 @@ interface playerProps {
   position: number;
   lastPosition: number;
   isSortable?: boolean;
+  isIconRemove?: boolean;
 }
 
 export function Player({
@@ -30,6 +31,7 @@ export function Player({
   position,
   lastPosition,
   isSortable = false,
+  isIconRemove = false,
 }: playerProps) {
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
@@ -97,23 +99,31 @@ export function Player({
       </div>
 
       {isSortable ? (
-        <div>
-          {position !== 1 && (
-            <button onClick={handleUp}>
-              <FiChevronUp size={20} />
-            </button>
-          )}
+        !isIconRemove ? (
+          <div>
+            {position !== 1 && (
+              <button onClick={handleUp}>
+                <FiChevronUp size={20} />
+              </button>
+            )}
 
-          {position - 1 !== lastPosition && (
-            <button onClick={handleDown}>
-              <FiChevronDown size={20} />
-            </button>
-          )}
+            {position - 1 !== lastPosition && (
+              <button onClick={handleDown}>
+                <FiChevronDown size={20} />
+              </button>
+            )}
 
-          <button onClick={handleRemove}>
-            <FiX size={20} />
-          </button>
-        </div>
+            <button onClick={handleRemove}>
+              <FiX size={20} />
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button onClick={handleRemove}>
+              <FiX size={20} />
+            </button>
+          </div>
+        )
       ) : (
         <div>
           <button onClick={handleToggle}>

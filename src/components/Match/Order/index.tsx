@@ -1,7 +1,17 @@
+import { useGame } from "../../../contexts/useGames";
+
+import { ListPlayers } from "../../Players/ListPlayers";
+
 export function Order() {
+  const { playersOrder } = useGame();
+
   return (
     <div>
-      <h1>Order</h1>
+      <ListPlayers
+        isSortable={true}
+        isIconRemove={true}
+        players={playersOrder}
+      />
     </div>
   );
 }
