@@ -36,7 +36,6 @@ export function Match() {
   };
 
   const handleChangeTab = (index: number) => {
-    console.log(index);
     setCurrentTab(index);
   };
 

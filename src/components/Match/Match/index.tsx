@@ -1,62 +1,68 @@
 import { useGame } from "../../../contexts/useGames";
+import { Player } from "../../../contexts/usePlayers";
+
+import { order, random2Teams, random } from "./raffle";
+
+interface RaffleSummary {
+  [key: number]: (playersOrder: Player[], limit: number) => Player[][];
+}
 
 export function Match() {
-  const { currentGame } = useGame();
-  const names = [
-    "Ana",
-    "Maria",
-    "João",
-    "Pedro",
-    "Marcos",
-    "Paulo",
-    "Lucas",
-    "Laura",
-    "Fernanda",
-    "Juliana",
-    "Mariana",
-    "Lorena",
-    "Rafael",
-    "Ricardo",
-    "Leonardo",
-    "Gabriel",
-    "Daniel",
-    "Mateus",
-    "Vinicius",
-    "Leandro",
-    "André",
-    "Gustavo",
-    "Felipe",
-    "Rafaela",
-    "Vitor",
-    "Julio",
-    "Pedro",
-    "Lucas",
-    "Jorge",
-    "José",
-    "André",
-    "João",
-    "Marcos",
-    "Ricardo",
-    "Paulo",
-    "Rafael",
-    "Vitor",
-    "Maria",
-  ];
+  const { currentGame, playersOrder } = useGame();
 
-  const numbersPlayers = currentGame ? currentGame.playersNumber : 0;
+  const raffleSummary: RaffleSummary = {
+    0: order,
+    1: random2Teams,
+    2: random,
+  };
 
-  const newArray = Array(numbersPlayers);
+  // const numbersPlayers = currentGame ? currentGame.playersNumber : 0;
 
-  for (let index = 0; index < numbersPlayers; index++) {
-    newArray[index] = names[Math.floor(Math.random() * 20)];
-    return newArray;
-  }
+  // const newArray = Array(numbersPlayers);
+
+  // for (let index = 0; index < numbersPlayers; index++) {
+  //   newArray[index] = names[Math.floor(Math.random() * 20)];
+  //   return newArray;
+  // }
+
+  const limit = currentGame ? currentGame.playersNumber : 0;
+
+  const teams = currentGame
+    ? raffleSummary[currentGame.rule](playersOrder, limit)
+    : [];
 
   return (
-    <div>
-      {newArray.map((name) => (
-        <Text>{name}</Text>
-      ))}
+    <div
+      style={{
+        marginTop: "2rem",
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "0 2rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        {teams[0].map((player) => (
+          <span key={player.name}>{player.name}</span>
+        ))}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        {teams[1].map((player) => (
+          <span key={player.name}>{player.name}</span>
+        ))}
+      </div>
     </div>
   );
 }
