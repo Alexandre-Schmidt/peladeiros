@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const ContainerTeams = styled.div`
-  margin-top: 3rem;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,12 +15,6 @@ export const ContainerScoreboard = styled.div`
   gap: 1rem;
 `;
 
-export const Stopwatch = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ButtonsContainer = styled.div`
-  margin: 0 9rem;
+export const TabsContainer = styled.div`
+  margin-top: 2rem;
 `;

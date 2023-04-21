@@ -4,7 +4,7 @@ import { Text } from "../Text";
 import { Button } from "../Button";
 
 import { ButtonWrapper, Container, Content, TextWrapper } from "./styles";
-
+Modal.setAppElement("#root");
 interface WarningProps {
   isOpen: boolean;
   title: string;
