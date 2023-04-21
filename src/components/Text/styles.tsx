@@ -8,6 +8,7 @@ interface TextContainerProps {
   mb: number;
   ml: number;
   mr: number;
+  variant: "primary" | "secondary";
 }
 
 const textSize = {
@@ -19,7 +20,8 @@ const textSize = {
 };
 
 export const Container = styled.p<TextContainerProps>`
-  color: ${({ theme }) => theme["blue500"]};
+  color: ${({ variant, theme }) =>
+    variant === "primary" ? theme["blue500"] : theme["white"]};
   font-family: "Roboto", sans-serif;
   font-size: ${({ size }) => textSize[size]};
   font-weight: ${({ weight }) => weight};

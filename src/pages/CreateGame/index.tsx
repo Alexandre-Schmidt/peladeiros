@@ -33,9 +33,9 @@ export function CreateGame() {
   const handleSave = ({ name, playersNumber, duration, goals }: FormData) => {
     createGame({
       name,
-      playersNumber,
-      duration,
-      goals,
+      playersNumber: Number(playersNumber),
+      duration: Number(duration),
+      goals: Number(goals),
       rule,
     });
 

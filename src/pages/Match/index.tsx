@@ -1,74 +1,49 @@
-import { useEffect, useState } from "react";
-import { X } from "phosphor-react";
+import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { useGame } from "../../contexts/useGames";
+import { X } from "phosphor-react";
 
 import { Back } from "../../components/Back";
 import { Team } from "../../components/Team";
 import { Text } from "../../components/Text";
-import { Button } from "../../components/Button";
+import { Tabs } from "../../components/Tabs";
+import { Next } from "../../components/Match/Next";
+import { Order } from "../../components/Match/Order";
+import { Stopwatch } from "../../components/Stopwatch";
 import { PageContainer } from "../../components/PageContainer";
+import { Match as MatchComponent } from "../../components/Match/Match";
 
-import {
-  ContainerTeams,
-  ContainerScoreboard,
-  Stopwatch,
-  ButtonsContainer,
-} from "./styles";
+import { ContainerTeams, ContainerScoreboard, TabsContainer } from "./styles";
+
+interface TabsSummary {
+  [key: number]: ReactNode;
+}
 
 export function Match() {
-  const { currentGame } = useGame();
-  const navigate = useNavigate();
-
+  const [currentTab, setCurrentTab] = useState(0);
   const [scoreLeft, setScoreLeft] = useState(0);
   const [scoreRight, setScoreRight] = useState(0);
 
-  const totalSeconds = currentGame ? currentGame.duration * 60 : 0;
+  const navigate = useNavigate();
 
-  const [timeLeft, setTimeLeft] = useState(totalSeconds);
-  const [isRunning, setIsRunning] = useState(false);
-
-  useEffect(() => {
-    let countdownInterval: number;
-
-    if (isRunning) {
-      countdownInterval = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1000);
-    }
-
-    return () => clearInterval(countdownInterval);
-  }, [isRunning, timeLeft]);
-
-  const displayTime = () => {
-    const displayMinutes = Math.floor(timeLeft / 60)
-      .toString()
-      .padStart(2, "0");
-    const displaySeconds = (timeLeft % 60).toString().padStart(2, "0");
-    return `${displayMinutes}:${displaySeconds}`;
-  };
-
-  const handleStart = () => {
-    setIsRunning(true);
-  };
-
-  const handleStop = () => {
-    setIsRunning(false);
-    setTimeLeft(totalSeconds);
+  const tabsSummary: TabsSummary = {
+    0: <Order />,
+    1: <MatchComponent />,
+    2: <Next />,
   };
 
   const handleGoBack = () => {
     navigate("/order");
   };
 
+  const handleChangeTab = (index: number) => {
+    setCurrentTab(index);
+  };
+
   return (
     <PageContainer>
       <Back onClick={handleGoBack} />
 
-      <Stopwatch>
-        <Text size="xl">{displayTime()}</Text>
-      </Stopwatch>
+      <Stopwatch />
 
       <ContainerTeams>
         <Team handleCounterScore={() => setScoreLeft(scoreLeft + 1)} />
@@ -83,19 +58,16 @@ export function Match() {
 
         <Team handleCounterScore={() => setScoreRight(scoreRight + 1)} />
       </ContainerTeams>
-      {/* <button>
-        <Timer size={32} weight="fill" />
-      </button> */}
 
-      {isRunning ? (
-        <ButtonsContainer>
-          <Button onClick={handleStop}>Parar</Button>
-        </ButtonsContainer>
-      ) : (
-        <ButtonsContainer>
-          <Button onClick={handleStart}>Iniciar</Button>
-        </ButtonsContainer>
-      )}
+      <TabsContainer>
+        <Tabs
+          tabs={["Ordem", "Partida", "Próximos"]}
+          currentTab={currentTab}
+          onCLick={(index) => handleChangeTab(index)}
+        />
+
+        <div>{tabsSummary[currentTab]}</div>
+      </TabsContainer>
     </PageContainer>
   );
 }

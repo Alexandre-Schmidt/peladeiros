@@ -7,9 +7,14 @@ import { Container } from "./styles";
 interface ListPlayersProps {
   players: Player[];
   isSortable?: boolean;
+  isIconRemove?: boolean;
 }
 
-export function ListPlayers({ players, isSortable }: ListPlayersProps) {
+export function ListPlayers({
+  players,
+  isSortable,
+  isIconRemove,
+}: ListPlayersProps) {
   return (
     <Container>
       {players.map((player, index) => (
@@ -19,6 +24,7 @@ export function ListPlayers({ players, isSortable }: ListPlayersProps) {
           name={player.name}
           position={index + 1}
           isSortable={isSortable}
+          isIconRemove={isIconRemove}
           lastPosition={players.length - 1}
         />
       ))}
