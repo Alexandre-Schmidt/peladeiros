@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
 import { useGame } from "../../contexts/useGames";
@@ -15,18 +17,30 @@ import { PageContainer } from "../../components/PageContainer";
 
 import { Form, InputsWrapper } from "./styles";
 
-interface FormData {
-  name: string;
-  playersNumber: number;
-  duration: number;
-  goals: number;
-}
+const FormSchema = zod.object({
+  name: zod.string().min(1, "Campo obrigatório"),
+  playersNumber: zod.string().min(1, "Campo obrigatório"),
+  duration: zod.string().min(1, "Campo obrigatório"),
+  goals: zod.string(),
+});
+
+type FormData = zod.infer<typeof FormSchema>;
 
 export function CreateGame() {
-  const navigate = useNavigate();
   const [rule, setRule] = useState(0);
 
-  const { register, handleSubmit, setValue } = useForm<FormData>();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  console.log(errors);
 
   const { createGame } = useGame();
 
@@ -60,11 +74,13 @@ export function CreateGame() {
             <Input
               id="playersNumber"
               placeholder="Jog por time"
+              inputType="number"
               {...register("playersNumber")}
             />
             <Input
               id="duration"
               placeholder="Duração (min)"
+              inputType="number"
               {...register("duration")}
             />
           </div>
@@ -73,6 +89,7 @@ export function CreateGame() {
             id="goals"
             placeholder="Limite de gols"
             defaultValue="0"
+            inputType="number"
             {...register("goals")}
           />
         </InputsWrapper>
