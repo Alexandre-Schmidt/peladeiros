@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import * as zod from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 
 import { useGame } from "../../contexts/useGames";
@@ -15,18 +17,25 @@ import { PageContainer } from "../../components/PageContainer";
 
 import { Form, InputsWrapper } from "./styles";
 
-interface FormData {
-  name: string;
-  playersNumber: number;
-  duration: number;
-  goals: number;
-}
+const FormSchema = zod.object({
+  name: zod.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
+  playersNumber: zod
+    .number()
+    .min(2, "Deve ter no mínimo 2 jogadores por time")
+    .max(10, "Deve ter no máximo 10 jogadores por time"),
+  duration: zod.number().min(1, "Deve ter pelo menos 1 minuto"),
+  goals: zod.number(),
+});
+
+type FormData = zod.infer<typeof FormSchema>;
 
 export function CreateGame() {
   const navigate = useNavigate();
   const [rule, setRule] = useState(0);
 
-  const { register, handleSubmit, setValue } = useForm<FormData>();
+  const { register, setValue, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(FormSchema),
+  });
 
   const { createGame } = useGame();
 
