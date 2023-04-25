@@ -31,10 +31,6 @@ export function random2Teams(
 
   const nextTeams = calculateOrder(remainingPlayers, limit);
 
-  /* for (let i = 0; i < remainingPlayers.length; i += limit) {
-    nextTeams.push(remainingPlayers.slice(i, i + limit));
-  } */
-
   return [team1, team2, ...nextTeams];
 }
 
@@ -42,9 +38,6 @@ export function random(playersOrder: Player[], limit: number): Player[][] {
   const mixedPlayers = playersOrder.sort(() => Math.random() - 0.5);
 
   const orderMatches = calculateOrder(mixedPlayers, limit);
-  /* for (let i = 0; i < mixedPlayers.length; i += limit) {
-    orderMatches.push(mixedPlayers.slice(i, i + limit));
-  } */
 
   return orderMatches;
 }
