@@ -60,61 +60,59 @@ export function Match() {
   }, [currentGame, playersOrder, raffleSummary, limit]);
 
   const handleFinishMatch = (indexWinner: number) => {
-    const winner = indexWinner;
-    const loser = indexWinner === 0 ? 1 : 0;
-    const next = 2;
+    if (indexWinner < 0) {
+      const next = indexWinner === -1 ? 0 : 1;
+      const nextNext = indexWinner === -1 ? 1 : 0;
+
+      const newTeamsOrder = [
+        teams[2],
+        teams[3],
+        ...teams.filter((_, index) => index > 3),
+        teams[next],
+        teams[nextNext],
+      ];
+
+      return setTeams(newTeamsOrder);
+    }
 
     if (playersOrder.length % limit === 0) {
+      const winner = indexWinner;
+      const loser = indexWinner === 0 ? 1 : 0;
+      const next = 2;
+
       const newTeamsOrder = [
         teams[indexWinner === 0 ? winner : next],
         teams[indexWinner === 1 ? winner : next],
-        ...teams.filter(
-          (_, index) => index !== winner && index !== loser && index !== next
-        ),
+        ...teams.filter((_, index) => index > 2),
         teams[loser],
       ];
 
       return setTeams(newTeamsOrder);
     }
 
-    // // mover o segundo array para a última posição
-    // const newTeamsOrder = teams;
+    const loser = indexWinner === 0 ? 1 : 0;
 
-    // newTeamsOrder.push(teams.splice(1, 1)[0]);
+    const lastTeam = teams[teams.length - 1];
 
-    // // preencher o último array com os elementos removidos
-    // const lastArray = newTeamsOrder.pop();
+    const lastTeamLength = lastTeam.length;
 
-    // if (!lastArray) return;
+    const missingPlayersQuantity = limit - lastTeamLength;
 
-    // newTeamsOrder[newTeamsOrder.length - 1] =
-    //   newTeamsOrder[newTeamsOrder.length - 1].concat(lastArray);
+    const sliceLoserTeam = teams[loser].slice(0, missingPlayersQuantity);
 
-    // console.log("NEW TEAMS", newTeamsOrder);
+    const newLoserTeam = teams[loser].slice(missingPlayersQuantity);
 
-    // const array = [
-    //   ["jog1", "jog2", "jog3", "jog4", "jog5"],
-    //   ["jog6", "jog7", "jog8", "jog9", "jog10"],
-    //   ["jog11", "jog12", "jog13", "jog14", "jog15"],
-    //   ["jog16", "jog17", "jog18"],
-    // ];
+    const newLastTeam = lastTeam.concat(sliceLoserTeam);
 
-    // const last = array[array.length - 1];
+    const newTeamsOrder = [
+      teams[indexWinner === 0 ? 0 : 2],
+      teams[indexWinner === 1 ? 1 : 2],
+      ...teams.filter((_, index) => index > 2 && index !== teams.length - 1),
+      newLastTeam,
+      newLoserTeam,
+    ];
 
-    // // mover o segundo array para a última posição
-    // array.push(array.splice(1, 1)[0]);
-
-    // // dividir o último array em duas partes e adicioná-las na terceira e quarta posição
-    // const lastArray = array.pop();
-
-    // if (!lastArray) return;
-
-    // const firstPart = lastArray.slice(0, 2);
-    // const secondPart = lastArray.slice(2);
-    // array.push(firstPart);
-    // array.push(secondPart);
-
-    // console.log(array); // [['jog1', 'jog2', 'jog3', 'jog4', 'jog5'], ['jog11', 'jog12', 'jog13', 'jog14', 'jog15'], ['jog16', 'jog17', 'jog18', 'jog6', 'jog7'], ['jog8', 'jog9', 'jog10']]
+    setTeams(newTeamsOrder);
   };
 
   return (
@@ -150,6 +148,7 @@ export function Match() {
         }}
       >
         <button onClick={() => handleFinishMatch(0)}>WINNER01</button>
+        <button onClick={() => handleFinishMatch(-2)}>EMPATE</button>
         <button onClick={() => handleFinishMatch(1)}>WINNER02</button>
       </div>
     </>
