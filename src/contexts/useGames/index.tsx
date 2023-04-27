@@ -2,6 +2,7 @@ import { createContext, useContext, ReactNode, useState } from "react";
 
 import { Player } from "../usePlayers";
 import { useToasts } from "../useToasts";
+import { createID } from "../../utils/createID";
 
 export interface CreateGameData {
   name: string;
@@ -9,6 +10,10 @@ export interface CreateGameData {
   duration: number;
   goals: number;
   rule: number;
+  shirtColors?: {
+    team01: string;
+    teams02: string;
+  };
 }
 
 export interface GameData extends CreateGameData {
@@ -28,6 +33,11 @@ interface GameContextData {
   handleSetCurrentGame: (id: number) => void;
   handleRemovePlayerOrder: (id: number) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
+  handleChangeShirtColors: (
+    team01: string,
+    team02: string,
+    color: string
+  ) => void;
 
   reset: () => void;
 }
@@ -63,7 +73,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     if (!games) {
       localStorage.setItem(
         "@peladeiros:games",
-        JSON.stringify([{ id: 1, ...data }])
+        JSON.stringify([{ id: createID(), ...data }])
       );
 
       return;
@@ -71,7 +81,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
     const arrayGames = JSON.parse(games);
 
-    arrayGames.push({ id: arrayGames.length + 1, ...data });
+    arrayGames.push({ id: createID(), ...data });
 
     localStorage.setItem("@peladeiros:games", JSON.stringify(arrayGames));
   };
@@ -152,6 +162,26 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
+  const handleChangeShirtColors = (teams: string, color: string) => {
+    const currentGame = localStorage.getItem("@peladeiros:currentGame");
+
+    if (!currentGame) return;
+
+    const currentGameData = JSON.parse(currentGame);
+
+    const newGameData = {
+      ...currentGameData,
+      [teams]: color,
+    };
+
+    localStorage.setItem(
+      "@peladeiros:currentGame",
+      JSON.stringify(newGameData)
+    );
+
+    setCurrentGame(newGameData);
+  };
+
   return (
     <GameContext.Provider
       value={{
@@ -163,6 +193,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         reset,
         handleChangePlayerOrder,
         handleRemovePlayerOrder,
+        handleChangeShirtColors,
       }}
     >
       {children}

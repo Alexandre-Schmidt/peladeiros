@@ -1,6 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
+
 export function createID() {
-  const max = 999;
-  const id = Math.floor(Math.random() * max);
+  const id = uuidv4();
 
   return id;
 }
