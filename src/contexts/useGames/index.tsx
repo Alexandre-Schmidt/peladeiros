@@ -2,6 +2,7 @@ import { createContext, useContext, ReactNode, useState } from "react";
 
 import { Player } from "../usePlayers";
 import { useToasts } from "../useToasts";
+import { createID } from "../../utils/createID";
 
 export interface CreateGameData {
   name: string;
@@ -72,7 +73,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     if (!games) {
       localStorage.setItem(
         "@peladeiros:games",
-        JSON.stringify([{ id: 1, ...data }])
+        JSON.stringify([{ id: createID(), ...data }])
       );
 
       return;
@@ -80,7 +81,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
     const arrayGames = JSON.parse(games);
 
-    arrayGames.push({ id: arrayGames.length + 1, ...data });
+    arrayGames.push({ id: createID(), ...data });
 
     localStorage.setItem("@peladeiros:games", JSON.stringify(arrayGames));
   };

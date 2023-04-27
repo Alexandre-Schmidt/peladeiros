@@ -12,7 +12,13 @@ import { Stopwatch } from "../../components/Stopwatch";
 import { PageContainer } from "../../components/PageContainer";
 import { Match as MatchComponent } from "../../components/Match/Match";
 
-import { ContainerTeams, ContainerScoreboard, TabsContainer } from "./styles";
+import {
+  ContainerTeams,
+  ContainerScoreboard,
+  TabsContainer,
+  Container,
+  TeamsWrapper,
+} from "./styles";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -40,34 +46,38 @@ export function Match() {
   };
 
   return (
-    <PageContainer>
-      <Back onClick={handleGoBack} />
+    <PageContainer pb={0}>
+      <Container>
+        <Back onClick={handleGoBack} />
 
-      <Stopwatch />
+        <TeamsWrapper>
+          <Stopwatch />
 
-      <ContainerTeams>
-        <Team handleCounterScore={() => setScoreLeft(scoreLeft + 1)} />
+          <ContainerTeams>
+            <Team handleCounterScore={() => setScoreLeft(scoreLeft + 1)} />
 
-        <ContainerScoreboard>
-          <Text size="xl">{scoreLeft}</Text>
+            <ContainerScoreboard>
+              <Text size="xl">{scoreLeft}</Text>
 
-          <X size={32} weight="bold" />
+              <X size={32} weight="bold" />
 
-          <Text size="xl">{scoreRight}</Text>
-        </ContainerScoreboard>
+              <Text size="xl">{scoreRight}</Text>
+            </ContainerScoreboard>
 
-        <Team handleCounterScore={() => setScoreRight(scoreRight + 1)} />
-      </ContainerTeams>
+            <Team handleCounterScore={() => setScoreRight(scoreRight + 1)} />
+          </ContainerTeams>
+        </TeamsWrapper>
 
-      <TabsContainer>
-        <Tabs
-          tabs={["Ordem", "Partida", "Próximos"]}
-          currentTab={currentTab}
-          onCLick={(index) => handleChangeTab(index)}
-        />
+        <TabsContainer>
+          <Tabs
+            tabs={["Ordem", "Partida", "Próximos"]}
+            currentTab={currentTab}
+            onCLick={(index) => handleChangeTab(index)}
+          />
 
-        <div>{tabsSummary[currentTab]}</div>
-      </TabsContainer>
+          <div>{tabsSummary[currentTab]}</div>
+        </TabsContainer>
+      </Container>
     </PageContainer>
   );
 }
