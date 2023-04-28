@@ -5,7 +5,7 @@ import { Game as GameComponent } from "../Game";
 import { Container } from "./styles";
 
 interface Game {
-  id: number;
+  id: string;
   name: string;
 }
 
