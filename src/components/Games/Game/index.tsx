@@ -7,7 +7,7 @@ import { Text } from "../../Text";
 import { Container } from "./styles";
 
 interface GameProps {
-  id: number;
+  id: string;
   title: string;
 }
 

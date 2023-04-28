@@ -17,7 +17,7 @@ import { usePlayer } from "../../../contexts/usePlayers";
 import { Warning } from "../../Warning";
 
 interface playerProps {
-  id: number;
+  id: string;
   name: string;
   position: number;
   lastPosition: number;
