@@ -19,6 +19,7 @@ import {
   Container,
   TeamsWrapper,
 } from "./styles";
+import { useGame } from "../../contexts/useGames";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -28,6 +29,8 @@ export function Match() {
   const [currentTab, setCurrentTab] = useState(0);
   const [scoreLeft, setScoreLeft] = useState(0);
   const [scoreRight, setScoreRight] = useState(0);
+
+  const { currentGame } = useGame();
 
   const navigate = useNavigate();
 
@@ -54,7 +57,10 @@ export function Match() {
           <Stopwatch />
 
           <ContainerTeams>
-            <Team handleCounterScore={() => setScoreLeft(scoreLeft + 1)} />
+            <Team
+              handleCounterScore={() => setScoreLeft(scoreLeft + 1)}
+              defaultColor={currentGame?.shirtColors?.team01}
+            />
 
             <ContainerScoreboard>
               <Text size="xl">{scoreLeft}</Text>
@@ -64,7 +70,10 @@ export function Match() {
               <Text size="xl">{scoreRight}</Text>
             </ContainerScoreboard>
 
-            <Team handleCounterScore={() => setScoreRight(scoreRight + 1)} />
+            <Team
+              handleCounterScore={() => setScoreRight(scoreRight + 1)}
+              defaultColor={currentGame?.shirtColors?.team02}
+            />
           </ContainerTeams>
         </TeamsWrapper>
 

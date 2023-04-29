@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +11,7 @@ import { Text } from "../../components/Text";
 import { Title } from "../../components/Title";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { Warning } from "../../components/Warning";
 import { RadioGroup } from "../../components/RadioGroup";
 import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
@@ -28,6 +29,8 @@ type FormData = zod.infer<typeof FormSchema>;
 
 export function CreateGame() {
   const [rule, setRule] = useState(0);
+  const [isWarningOpen, setIsWarningOpen] = useState(false);
+  const [isWarningOpenIncomplete, setIsWarningOpenIncomplete] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,6 +47,10 @@ export function CreateGame() {
 
   const { createGame } = useGame();
 
+  useEffect(() => {
+    setIsWarningOpenIncomplete(!!Object.keys(errors).length);
+  }, [errors]);
+
   const handleSave = ({ name, playersNumber, duration, goals }: FormData) => {
     createGame({
       name,
@@ -53,11 +60,18 @@ export function CreateGame() {
       rule,
     });
 
+    setIsWarningOpen(true);
     setValue("name", "");
   };
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleCloseWarning = (type: "success" | "incomplete") => {
+    type === "success"
+      ? setIsWarningOpen(false)
+      : setIsWarningOpenIncomplete(false);
   };
 
   return (
@@ -110,6 +124,23 @@ export function CreateGame() {
       <BottomWrapper>
         <Button onClick={handleSubmit(handleSave)}>Salvar</Button>
       </BottomWrapper>
+
+      <Warning
+        isOpen={isWarningOpen}
+        title="Parabéns!"
+        message="Pelada criada com sucesso!"
+        onClose={() => handleCloseWarning("success")}
+        confirmText="OK"
+        onConfirm={() => handleCloseWarning("success")}
+      />
+
+      <Warning
+        isOpen={isWarningOpenIncomplete}
+        title="Atenção!"
+        message="Por favor, preencha todos os campos"
+        onClose={() => handleCloseWarning("incomplete")}
+        onConfirm={() => handleCloseWarning("incomplete")}
+      />
     </PageContainer>
   );
 }

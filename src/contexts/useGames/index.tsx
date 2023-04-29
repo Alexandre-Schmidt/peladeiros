@@ -11,8 +11,8 @@ export interface CreateGameData {
   goals: number;
   rule: number;
   shirtColors?: {
-    team01: string;
-    teams02: string;
+    team01: number;
+    team02: number;
   };
 }
 
@@ -33,12 +33,7 @@ interface GameContextData {
   handleSetCurrentGame: (id: number) => void;
   handleRemovePlayerOrder: (id: number) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
-  handleChangeShirtColors: (
-    team01: string,
-    team02: string,
-    color: string
-  ) => void;
-
+  handleChangeShirtColors: (team: string, color: number) => void;
   reset: () => void;
 }
 
@@ -162,8 +157,9 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleChangeShirtColors = (teams: string, color: string) => {
-    const currentGame = localStorage.getItem("@peladeiros:currentGame");
+  const handleChangeShirtColors = (team: string, color: number) => {
+    console.log(team, color);
+    /* const currentGame = localStorage.getItem("@peladeiros:currentGame");
 
     if (!currentGame) return;
 
@@ -179,7 +175,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
       JSON.stringify(newGameData)
     );
 
-    setCurrentGame(newGameData);
+    setCurrentGame(newGameData); */
   };
 
   return (

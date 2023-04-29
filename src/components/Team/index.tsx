@@ -10,18 +10,20 @@ import {
 
 import { Shirt } from "../Shirt";
 import { Warning } from "../Warning";
+import { useGame } from "../../contexts/useGames";
 
 interface TeamProps {
   handleCounterScore: () => void;
+  defaultColor?: number;
 }
 
-export function Team({ handleCounterScore }: TeamProps) {
+export function Team({ handleCounterScore, defaultColor }: TeamProps) {
   const [showColorsShirt, setShowColorsShirt] = useState(false);
   const [colorSelected, setColorSelected] = useState(
-    Math.floor(Math.random() * 6)
+    defaultColor || Math.floor(Math.random() * 6)
   );
   const [isWarningOpen, setIsWarningOpen] = useState(false);
-
+  const { handleChangeShirtColors } = useGame();
   const colors = [
     "#4cb963",
     "#f2c94c",
