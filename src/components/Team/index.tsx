@@ -24,6 +24,7 @@ export function Team({ handleCounterScore, defaultColor }: TeamProps) {
   );
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const { handleChangeShirtColors } = useGame();
+
   const colors = [
     "#4cb963",
     "#f2c94c",
@@ -36,6 +37,7 @@ export function Team({ handleCounterScore, defaultColor }: TeamProps) {
   const handleSelectColor = (color: number) => {
     setColorSelected(color);
     setShowColorsShirt(false);
+    handleChangeShirtColors(team, color);
   };
 
   const handleAddGoal = () => {
