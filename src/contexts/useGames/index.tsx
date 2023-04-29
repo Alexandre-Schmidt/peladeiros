@@ -17,7 +17,7 @@ export interface CreateGameData {
 }
 
 export interface GameData extends CreateGameData {
-  id: number;
+  id: string;
 }
 
 interface ChangePlayerOrder {
@@ -30,8 +30,8 @@ interface GameContextData {
   playersOrder: Player[];
   createGame: (data: CreateGameData) => void;
   handleAddPlayerOrder: (player: Player) => void;
-  handleSetCurrentGame: (id: number) => void;
-  handleRemovePlayerOrder: (id: number) => void;
+  handleSetCurrentGame: (id: string) => void;
+  handleRemovePlayerOrder: (id: string) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
   handleChangeShirtColors: (team: string, color: number) => void;
   reset: () => void;
@@ -81,7 +81,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     localStorage.setItem("@peladeiros:games", JSON.stringify(arrayGames));
   };
 
-  const handleSetCurrentGame = (id: number) => {
+  const handleSetCurrentGame = (id: string) => {
     const games = localStorage.getItem("@peladeiros:games");
 
     if (!games) return;
@@ -146,7 +146,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleRemovePlayerOrder = (id: number) => {
+  const handleRemovePlayerOrder = (id: string) => {
     const newPlayersOrder = playersOrder.filter((player) => player.id !== id);
 
     setPlayersOrder(newPlayersOrder);

@@ -3,19 +3,19 @@ import { createID } from "../../utils/createID";
 
 export interface CreatePlayerData {
   name: string;
-  gameId: number;
+  gameId: string;
 }
 
 export interface Player extends CreatePlayerData {
-  id: number;
+  id: string;
 }
 
 interface PlayersContextData {
   players: Player[];
-  getFilteredPlayers: (currentGameId: number) => Player[];
+  getFilteredPlayers: (currentGameId: string) => Player[];
   createPlayer: (data: CreatePlayerData) => Player;
   findPlayerByName: (name: string) => Player | undefined;
-  deletePlayer: (id: number) => void;
+  deletePlayer: (id: string) => void;
 }
 
 interface PlayerProviderProps {
@@ -83,11 +83,11 @@ const PlayerProvider = ({ children }: PlayerProviderProps) => {
     return player;
   };
 
-  const getFilteredPlayers = (currentGameId: number) => {
+  const getFilteredPlayers = (currentGameId: string) => {
     return players.filter((player) => player.gameId === currentGameId);
   };
 
-  const deletePlayer = (id: number) => {
+  const deletePlayer = (id: string) => {
     const newPlayers = players.filter((player) => player.id !== id);
 
     setPlayers(newPlayers);
