@@ -2,6 +2,8 @@ import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "phosphor-react";
 
+import { useGame } from "../../contexts/useGames";
+
 import { Back } from "../../components/Back";
 import { Team } from "../../components/Team";
 import { Text } from "../../components/Text";
@@ -19,7 +21,6 @@ import {
   Container,
   TeamsWrapper,
 } from "./styles";
-import { useGame } from "../../contexts/useGames";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -30,7 +31,7 @@ export function Match() {
   const [scoreLeft, setScoreLeft] = useState(0);
   const [scoreRight, setScoreRight] = useState(0);
 
-  const { currentGame } = useGame();
+  const { currentGame, handleChangeShirtColor } = useGame();
 
   const navigate = useNavigate();
 
@@ -50,43 +51,51 @@ export function Match() {
 
   return (
     <PageContainer pb={0}>
-      <Container>
-        <Back onClick={handleGoBack} />
+      {currentGame && (
+        <Container>
+          <Back onClick={handleGoBack} />
 
-        <TeamsWrapper>
-          <Stopwatch />
+          <TeamsWrapper>
+            <Stopwatch />
 
-          <ContainerTeams>
-            <Team
-              handleCounterScore={() => setScoreLeft(scoreLeft + 1)}
-              defaultColor={currentGame?.shirtColors?.team01}
+            <ContainerTeams>
+              <Team
+                shirtColorIndex={currentGame.shirtColors.team01}
+                handleCounterScore={() => setScoreLeft(scoreLeft + 1)}
+                handleChangeColorShirt={(color) =>
+                  handleChangeShirtColor("team01", color)
+                }
+              />
+
+              <ContainerScoreboard>
+                <Text size="xl">{scoreLeft}</Text>
+
+                <X size={32} weight="bold" />
+
+                <Text size="xl">{scoreRight}</Text>
+              </ContainerScoreboard>
+
+              <Team
+                shirtColorIndex={currentGame.shirtColors.team02}
+                handleCounterScore={() => setScoreRight(scoreRight + 1)}
+                handleChangeColorShirt={(color) =>
+                  handleChangeShirtColor("team02", color)
+                }
+              />
+            </ContainerTeams>
+          </TeamsWrapper>
+
+          <TabsContainer>
+            <Tabs
+              tabs={["Ordem", "Partida", "Próximos"]}
+              currentTab={currentTab}
+              onCLick={(index) => handleChangeTab(index)}
             />
 
-            <ContainerScoreboard>
-              <Text size="xl">{scoreLeft}</Text>
-
-              <X size={32} weight="bold" />
-
-              <Text size="xl">{scoreRight}</Text>
-            </ContainerScoreboard>
-
-            <Team
-              handleCounterScore={() => setScoreRight(scoreRight + 1)}
-              defaultColor={currentGame?.shirtColors?.team02}
-            />
-          </ContainerTeams>
-        </TeamsWrapper>
-
-        <TabsContainer>
-          <Tabs
-            tabs={["Ordem", "Partida", "Próximos"]}
-            currentTab={currentTab}
-            onCLick={(index) => handleChangeTab(index)}
-          />
-
-          <div>{tabsSummary[currentTab]}</div>
-        </TabsContainer>
-      </Container>
+            <div>{tabsSummary[currentTab]}</div>
+          </TabsContainer>
+        </Container>
+      )}
     </PageContainer>
   );
 }

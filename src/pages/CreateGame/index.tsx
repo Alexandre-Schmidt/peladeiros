@@ -17,6 +17,7 @@ import { BottomWrapper } from "../../components/BottomWrapper";
 import { PageContainer } from "../../components/PageContainer";
 
 import { Form, InputsWrapper } from "./styles";
+import { colors } from "../../utils/colors";
 
 const FormSchema = zod.object({
   name: zod.string().min(1, "Campo obrigatório"),
@@ -58,6 +59,10 @@ export function CreateGame() {
       duration: Number(duration),
       goals: Number(goals),
       rule,
+      shirtColors: {
+        team01: Math.floor(Math.random() * colors.length),
+        team02: Math.floor(Math.random() * colors.length),
+      },
     });
 
     setIsWarningOpen(true);

@@ -10,7 +10,7 @@ export interface CreateGameData {
   duration: number;
   goals: number;
   rule: number;
-  shirtColors?: {
+  shirtColors: {
     team01: number;
     team02: number;
   };
@@ -33,7 +33,7 @@ interface GameContextData {
   handleSetCurrentGame: (id: string) => void;
   handleRemovePlayerOrder: (id: string) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
-  handleChangeShirtColors: (team: string, color: number) => void;
+  handleChangeShirtColor: (team: string, color: number) => void;
   reset: () => void;
 }
 
@@ -157,25 +157,36 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleChangeShirtColors = (team: string, color: number) => {
+  const handleChangeShirtColor = (team: string, color: number) => {
     console.log(team, color);
-    /* const currentGame = localStorage.getItem("@peladeiros:currentGame");
+
+    const findGames = localStorage.getItem("@peladeiros:games");
+
+    if (!findGames) return;
 
     if (!currentGame) return;
 
-    const currentGameData = JSON.parse(currentGame);
+    const games: GameData[] = JSON.parse(findGames);
 
-    const newGameData = {
-      ...currentGameData,
-      [teams]: color,
-    };
+    const newGames = games.map((game) => {
+      if (game.id !== currentGame.id) return game;
 
-    localStorage.setItem(
-      "@peladeiros:currentGame",
-      JSON.stringify(newGameData)
-    );
+      const newGame = {
+        ...game,
+        shirtColors: {
+          ...game.shirtColors,
+          [team]: color,
+        },
+      };
 
-    setCurrentGame(newGameData); */
+      setCurrentGame(newGame);
+
+      localStorage.setItem("@peladeiros:currentGame", JSON.stringify(newGame));
+
+      return newGame;
+    });
+
+    localStorage.setItem("@peladeiros:games", JSON.stringify(newGames));
   };
 
   return (
@@ -189,7 +200,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         reset,
         handleChangePlayerOrder,
         handleRemovePlayerOrder,
-        handleChangeShirtColors,
+        handleChangeShirtColor,
       }}
     >
       {children}
