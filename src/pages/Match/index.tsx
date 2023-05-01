@@ -50,7 +50,7 @@ export function Match() {
   };
 
   return (
-    <PageContainer pb={0}>
+    <PageContainer>
       {currentGame && (
         <Container>
           <Back onClick={handleGoBack} />

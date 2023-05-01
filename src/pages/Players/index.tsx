@@ -17,7 +17,7 @@ export function Players() {
   const { getFilteredPlayers } = usePlayer();
 
   const handleGoBack = () => {
-    navigate("/order");
+    navigate(-1);
   };
 
   const players = useMemo(() => {

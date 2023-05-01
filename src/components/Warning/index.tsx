@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { Text } from "../Text";
 import { Button } from "../Button";
 
-import { ButtonWrapper, Container, Content, TextWrapper } from "./styles";
+import { ButtonWrapper, Container, TextWrapper } from "./styles";
 Modal.setAppElement("#root");
 interface WarningProps {
   isOpen: boolean;
@@ -46,24 +46,22 @@ export function Warning({
       }}
     >
       <Container>
-        <Content>
-          <TextWrapper>
-            <Text size="lg" weight={500}>
-              {title}
-            </Text>
-            <Text mt={1}>{message}</Text>
-          </TextWrapper>
+        <TextWrapper>
+          <Text size="lg" weight={500}>
+            {title}
+          </Text>
+          <Text mt={1}>{message}</Text>
+        </TextWrapper>
 
-          <ButtonWrapper>
-            {onCancel && (
-              <Button variant="secondary" onClick={onCancel}>
-                Cancelar
-              </Button>
-            )}
+        <ButtonWrapper>
+          {onCancel && (
+            <Button variant="secondary" onClick={onCancel}>
+              Cancelar
+            </Button>
+          )}
 
-            <Button onClick={onConfirm}>{confirmText}</Button>
-          </ButtonWrapper>
-        </Content>
+          <Button onClick={onConfirm}>{confirmText}</Button>
+        </ButtonWrapper>
       </Container>
     </Modal>
   );

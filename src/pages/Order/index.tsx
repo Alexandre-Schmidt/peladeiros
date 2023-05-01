@@ -27,13 +27,12 @@ export function Order() {
   const { reset } = useGame();
   const navigate = useNavigate();
 
-  const { currentGame, playersOrder, handleAddPlayerOrder } = useGame();
-
   const { register, handleSubmit, setValue } = useForm<FormData>({
     resolver: zodResolver(FormSchema),
   });
 
   const { createPlayer, findPlayerByName } = usePlayer();
+  const { currentGame, playersOrder, handleAddPlayerOrder } = useGame();
 
   const handleNavigateToPlayers = () => {
     navigate("/players");
