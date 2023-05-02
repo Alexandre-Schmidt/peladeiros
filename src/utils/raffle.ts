@@ -1,4 +1,4 @@
-import { Player } from "../../../contexts/usePlayers";
+import { Player } from "../contexts/usePlayers";
 
 export function calculateOrder(
   playersOrder: Player[],

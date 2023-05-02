@@ -2,8 +2,9 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import { GameProvider } from "./contexts/useGames";
-import { PlayerProvider } from "./contexts/usePlayers";
+import { MatchProvider } from "./contexts/useMatch";
 import { ToastsProvider } from "./contexts/useToasts";
+import { PlayerProvider } from "./contexts/usePlayers";
 
 import { Router } from "./routes";
 
@@ -17,7 +18,9 @@ export function App() {
         <ToastsProvider>
           <PlayerProvider>
             <GameProvider>
-              <Router />
+              <MatchProvider>
+                <Router />
+              </MatchProvider>
             </GameProvider>
           </PlayerProvider>
         </ToastsProvider>

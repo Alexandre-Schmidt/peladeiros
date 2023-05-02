@@ -1,8 +1,9 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { X } from "phosphor-react";
 
 import { useGame } from "../../contexts/useGames";
+import { useMatch } from "../../contexts/useMatch";
 
 import { Back } from "../../components/Back";
 import { Team } from "../../components/Team";
@@ -32,6 +33,7 @@ export function Match() {
   const [scoreRight, setScoreRight] = useState(0);
 
   const { currentGame, handleChangeShirtColor } = useGame();
+  const { handleDrawTeams } = useMatch();
 
   const navigate = useNavigate();
 
@@ -40,6 +42,10 @@ export function Match() {
     1: <MatchComponent />,
     2: <Next />,
   };
+
+  useEffect(() => {
+    handleDrawTeams();
+  }, []);
 
   const handleGoBack = () => {
     navigate("/order");
@@ -50,7 +56,7 @@ export function Match() {
   };
 
   return (
-    <PageContainer>
+    <PageContainer pb={0}>
       {currentGame && (
         <Container>
           <Back onClick={handleGoBack} />

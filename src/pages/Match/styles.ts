@@ -32,6 +32,5 @@ export const TabsContainer = styled.div`
   > div:last-child {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 18rem;
   }
 `;
