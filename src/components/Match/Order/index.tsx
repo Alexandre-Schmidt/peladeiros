@@ -30,9 +30,9 @@ export function Order() {
         players={playersOrder}
       />
 
-      {/* <BottomWrapper>
+      <BottomWrapper>
         <Button onClick={handleOpenModal}>Inserir</Button>
-      </BottomWrapper> */}
+      </BottomWrapper>
 
       <AddPlayer isOpen={isOpen} onClose={handleCloseModal} />
     </Container>
