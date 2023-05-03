@@ -34,3 +34,24 @@ export const TabsContainer = styled.div`
     overflow-y: auto;
   }
 `;
+
+export const AddPlayerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  padding: 0 1rem;
+`;
+export const ButtonAdd = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.green500};
+  :disabled {
+    visibility: collapse;
+  }
+`;

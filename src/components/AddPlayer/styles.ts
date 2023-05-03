@@ -14,6 +14,7 @@ export const Container = styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  position: absolute;
+  right: 0;
+  padding: 0 2.5rem;
 `;

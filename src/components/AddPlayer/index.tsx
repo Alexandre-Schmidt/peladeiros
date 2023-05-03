@@ -3,7 +3,9 @@ import Modal from "react-modal";
 import { Text } from "../Text";
 import { FormAddPlayer } from "../FormAddPlayer";
 
-import { Container } from "./styles";
+import { ButtonsContainer, Container } from "./styles";
+import { X } from "phosphor-react";
+import { useState } from "react";
 
 Modal.setAppElement("#root");
 
@@ -14,6 +16,11 @@ interface WarningProps {
 }
 
 export function AddPlayer({ isOpen, onClose, onConfirm }: WarningProps) {
+  /* const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  }; */
   return (
     <Modal
       isOpen={isOpen}
@@ -35,6 +42,9 @@ export function AddPlayer({ isOpen, onClose, onConfirm }: WarningProps) {
         },
       }}
     >
+      <ButtonsContainer>
+        <X size={16} weight="bold" />
+      </ButtonsContainer>
       <Container>
         <Text size="lg" weight={500}>
           Adicionar jogador
