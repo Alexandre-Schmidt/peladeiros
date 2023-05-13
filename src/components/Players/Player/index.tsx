@@ -15,6 +15,7 @@ import { Text } from "../../Text";
 import { Container } from "./styles";
 import { usePlayer } from "../../../contexts/usePlayers";
 import { Warning } from "../../Warning";
+import { useMatch } from "../../../contexts/useMatch";
 
 interface playerProps {
   id: string;
@@ -44,6 +45,7 @@ export function Player({
   } = useGame();
 
   const { deletePlayer } = usePlayer();
+  const { handleRemovePlayer } = useMatch();
 
   const handleUp = () => {
     handleChangePlayerOrder({ type: "up", currentIndex: position - 1 });
@@ -55,6 +57,7 @@ export function Player({
 
   const handleRemove = () => {
     handleRemovePlayerOrder(id);
+    handleRemovePlayer(id);
   };
 
   const handleDelete = () => {

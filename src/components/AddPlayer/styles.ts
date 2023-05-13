@@ -12,7 +12,7 @@ export const Container = styled.div`
   }
 `;
 
-export const ButtonsContainer = styled.div`
+export const ButtonsContainer = styled.button`
   display: flex;
   position: absolute;
   right: 0;

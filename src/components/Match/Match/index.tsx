@@ -17,6 +17,8 @@ import avatar10 from "../../../assets/avatar10.svg";
 export function Match() {
   const { teams, handleFinishMatch } = useMatch();
 
+  console.log(teams);
+
   const iconSummary: { [key: string]: string } = {
     1: avatar10,
     2: avatar02,
@@ -63,7 +65,7 @@ export function Match() {
         }}
       >
         <button onClick={() => handleFinishMatch(0)}>WINNER01</button>
-        <button onClick={() => handleFinishMatch(-2)}>EMPATE</button>
+        <button onClick={() => handleFinishMatch(-1)}>EMPATE</button>
         <button onClick={() => handleFinishMatch(1)}>WINNER02</button>
       </div>
     </>

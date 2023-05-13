@@ -5,7 +5,6 @@ import { FormAddPlayer } from "../FormAddPlayer";
 
 import { ButtonsContainer, Container } from "./styles";
 import { X } from "phosphor-react";
-import { useState } from "react";
 
 Modal.setAppElement("#root");
 
@@ -42,13 +41,15 @@ export function AddPlayer({ isOpen, onClose, onConfirm }: WarningProps) {
         },
       }}
     >
-      <ButtonsContainer>
+      <ButtonsContainer onClick={onClose}>
         <X size={16} weight="bold" />
       </ButtonsContainer>
+
       <Container>
         <Text size="lg" weight={500}>
           Adicionar jogador
         </Text>
+
         <FormAddPlayer />
       </Container>
     </Modal>
