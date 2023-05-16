@@ -61,6 +61,22 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     localStorage.setItem("@peladeiros:teams", JSON.stringify(teamsSorted));
   };
 
+  // AQUI*****BIXA
+  const forArrayPlayers = (arrayPlayers: Player[], initialization?: number) => {
+    for (
+      let i = limit * (initialization ? initialization + 1 : 2);
+      i < arrayPlayers.length;
+      i++
+    ) {
+      if (i === arrayPlayers.length - 1) {
+        arrayPlayers.pop();
+        break;
+      }
+
+      arrayPlayers[i] = arrayPlayers[i + 1];
+    }
+  };
+
   const handleFinishMatch = (indexWinner: number) => {
     if (indexWinner < 0) {
       if (playersOrder.length % limit === 0) {
@@ -211,7 +227,6 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     setTeams(newTeamsOrder);
   };
 
-  // AQUI*****MULA
   const handleRemovePlayer = (playerId: string) => {
     const indexTeam = teams.findIndex((team) =>
       team.find((player) => player.id === playerId)
@@ -230,14 +245,7 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
       arrayPlayers[indexPlayer] = selectedPlayer;
 
-      for (let i = limit * 2; i < arrayPlayers.length; i++) {
-        if (i === arrayPlayers.length - 1) {
-          arrayPlayers.pop();
-          break;
-        }
-
-        arrayPlayers[i] = arrayPlayers[i + 1];
-      }
+      forArrayPlayers(arrayPlayers);
 
       const newTeamsOrder = order(arrayPlayers, limit);
 
@@ -250,15 +258,7 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
       arrayPlayers[indexPlayer] = selectedPlayer;
 
-      for (let i = limit * (indexTeam + 1); i < arrayPlayers.length; i++) {
-        if (i === arrayPlayers.length - 1) {
-          arrayPlayers.pop();
-
-          break;
-        }
-
-        arrayPlayers[i] = arrayPlayers[i + 1];
-      }
+      forArrayPlayers(arrayPlayers, indexTeam);
 
       const newTeamsOrder = order(arrayPlayers, limit);
 
