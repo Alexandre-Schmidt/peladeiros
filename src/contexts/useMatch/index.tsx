@@ -211,37 +211,70 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     setTeams(newTeamsOrder);
   };
 
+  // AQUI*****MULA
   const handleRemovePlayer = (playerId: string) => {
     const indexTeam = teams.findIndex((team) =>
       team.find((player) => player.id === playerId)
     );
 
-    const team = teams[indexTeam];
+    if (indexTeam === -1) return;
 
-    const indexPlayer = team.findIndex((player) => player.id === playerId);
+    const arrayPlayers = teams.flat();
 
-    console.log("Index do TIME", indexTeam);
-    console.log("Index do Jogador", indexPlayer);
+    const indexPlayer = arrayPlayers.findIndex(
+      (player) => player.id === playerId
+    );
 
-    const newTeam = team.filter((_, index) => index !== indexPlayer);
+    if (indexTeam === 0 || indexTeam === 1) {
+      const selectedPlayer = arrayPlayers[limit * 2];
 
-    setTeams((oldTeams) => {
-      const newTeams = [...oldTeams];
+      arrayPlayers[indexPlayer] = selectedPlayer;
 
-      const teste = newTeams.map((team, index) => {
-        if (index < indexTeam) {
-          return team;
+      for (let i = limit * 2; i < arrayPlayers.length; i++) {
+        if (i === arrayPlayers.length - 1) {
+          arrayPlayers.pop();
+          break;
         }
 
-        if (index === indexTeam) {
-          return newTeam.push(newTeams[index + 1][0]);
+        arrayPlayers[i] = arrayPlayers[i + 1];
+      }
+
+      const newTeamsOrder = order(arrayPlayers, limit);
+
+      console.log("Novos times", newTeamsOrder);
+
+      localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
+      return setTeams(newTeamsOrder);
+    } else if (indexTeam >= 2 && indexTeam < teams.length - 1) {
+      const selectedPlayer = arrayPlayers[limit * (indexTeam + 1)];
+
+      arrayPlayers[indexPlayer] = selectedPlayer;
+
+      for (let i = limit * (indexTeam + 1); i < arrayPlayers.length; i++) {
+        if (i === arrayPlayers.length - 1) {
+          arrayPlayers.pop();
+
+          break;
         }
 
-        return team;
-      });
+        arrayPlayers[i] = arrayPlayers[i + 1];
+      }
 
-      return newTeams;
-    });
+      const newTeamsOrder = order(arrayPlayers, limit);
+
+      console.log("Novos times", newTeamsOrder);
+      localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
+      return setTeams(newTeamsOrder);
+    }
+
+    const newTeamsOrder = order(
+      arrayPlayers.filter((_, index) => index !== indexPlayer),
+      limit
+    );
+
+    console.log("Novos times", newTeamsOrder);
+    localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
+    setTeams(newTeamsOrder);
   };
 
   return (

@@ -24,6 +24,7 @@ interface playerProps {
   lastPosition: number;
   isSortable?: boolean;
   isIconRemove?: boolean;
+  removeBlocked?: boolean;
 }
 
 export function Player({
@@ -33,6 +34,7 @@ export function Player({
   lastPosition,
   isSortable = false,
   isIconRemove = false,
+  removeBlocked = false,
 }: playerProps) {
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
@@ -56,7 +58,7 @@ export function Player({
   };
 
   const handleRemove = () => {
-    handleRemovePlayerOrder(id);
+    handleRemovePlayerOrder(id, removeBlocked);
     handleRemovePlayer(id);
   };
 

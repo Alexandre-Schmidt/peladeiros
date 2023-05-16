@@ -31,7 +31,7 @@ interface GameContextData {
   createGame: (data: CreateGameData) => void;
   handleAddPlayerOrder: (player: Player) => void;
   handleSetCurrentGame: (id: string) => void;
-  handleRemovePlayerOrder: (id: string) => void;
+  handleRemovePlayerOrder: (id: string, removeBlocked: boolean) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
   handleChangeShirtColor: (team: string, color: number) => void;
   reset: () => void;
@@ -146,7 +146,22 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleRemovePlayerOrder = (id: string) => {
+  const handleRemovePlayerOrder = (id: string, removeBlocked: boolean) => {
+    if (!currentGame) return;
+
+    if (
+      playersOrder.length === currentGame.playersNumber * 2 &&
+      removeBlocked
+    ) {
+      handleOpenToast({
+        type: "error",
+        title: "Error",
+        message: "Não há jogador para substituir!",
+      });
+
+      return;
+    }
+
     const newPlayersOrder = playersOrder.filter((player) => player.id !== id);
 
     setPlayersOrder(newPlayersOrder);
