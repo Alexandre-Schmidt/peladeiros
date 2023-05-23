@@ -11,8 +11,6 @@ export function Match() {
   const { currentGame } = useGame();
   const { teams, handleFinishMatch } = useMatch();
 
-  console.log(teams);
-
   return (
     <>
       {teams.length > 0 && (
