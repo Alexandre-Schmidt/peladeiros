@@ -1,9 +1,10 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { X } from "phosphor-react";
 
 import { useGame } from "../../contexts/useGames";
 import { useMatch } from "../../contexts/useMatch";
 
+import { Menu } from "../../components/Menu";
 import { Team } from "../../components/Team";
 import { Text } from "../../components/Text";
 import { Tabs } from "../../components/Tabs";
@@ -21,7 +22,6 @@ import {
   ContainerTeams,
   ContainerScoreboard,
 } from "./styles";
-import { Menu } from "../../components/Menu";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -41,10 +41,6 @@ export function Match() {
     1: <MatchComponent />,
     2: <Next />,
   };
-
-  useEffect(() => {
-    handleDrawTeams();
-  }, []);
 
   const handleChangeTab = (index: number) => {
     setCurrentTab(index);
@@ -67,6 +63,7 @@ export function Match() {
   };
 
   const menuItems = [
+    { label: "Sortear Times", action: handleDrawTeams },
     { label: "Adicionar jogador", action: handleOpenModal },
     { label: "Finalizar Pelada", action: handleFinishMatch },
   ];

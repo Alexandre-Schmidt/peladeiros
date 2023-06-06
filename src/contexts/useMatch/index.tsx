@@ -12,8 +12,14 @@ export interface CreateMatchData {
   rule: number;
 }
 
+interface PaymentControl {
+  player: Player;
+  control: boolean;
+}
+
 interface MatchContextData {
   teams: Player[][];
+  paymentControl: PaymentControl[];
   handleDrawTeams: () => void;
   handleFinishMatch: (indexWinner: number) => void;
   handleRemovePlayer: (playerId: string) => void;
@@ -40,6 +46,18 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     return [];
   });
 
+  const [paymentControl, setPaymentControl] = useState<PaymentControl[]>(() => {
+    const paymentControl = localStorage.getItem("@peladeiros:paymentControl");
+
+    if (paymentControl) {
+      return JSON.parse(paymentControl);
+    }
+
+    return [];
+  });
+
+  console.log("Controle de Pagamento", paymentControl);
+
   const { currentGame, playersOrder } = useGame();
 
   const limit = currentGame ? currentGame.playersNumber : 0;
@@ -61,7 +79,6 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     localStorage.setItem("@peladeiros:teams", JSON.stringify(teamsSorted));
   };
 
-  // AQUI*****BIXA
   const forArrayPlayers = (arrayPlayers: Player[], initialization?: number) => {
     for (
       let i = limit * (initialization ? initialization + 1 : 2);
@@ -75,6 +92,27 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
       arrayPlayers[i] = arrayPlayers[i + 1];
     }
+  };
+
+  const handleAddPlayerInPaymentControl = (players: Player[]) => {
+    const newPlayers: PaymentControl[] = [];
+
+    players.forEach((player) => {
+      if (paymentControl.find((item) => item.player.id === player.id)) {
+        return;
+      }
+
+      newPlayers.push({ player, control: false });
+    });
+
+    const newPaymentControl = [...paymentControl];
+
+    setPaymentControl(newPaymentControl.concat(newPlayers));
+
+    localStorage.setItem(
+      "@peladeiros:paymentControl",
+      JSON.stringify(newPaymentControl)
+    );
   };
 
   const handleFinishMatch = (indexWinner: number) => {
@@ -94,6 +132,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
         newTeamsOrder.push(teams[next]);
         newTeamsOrder.push(teams[nextNext]);
+
+        handleAddPlayerInPaymentControl(teams[0].concat(teams[1]));
 
         return setTeams(newTeamsOrder);
       }
@@ -170,6 +210,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
         newTeamsOrder.push(newNextNextTeam);
       }
 
+      handleAddPlayerInPaymentControl(teams[0].concat(teams[1]));
+
       return setTeams(newTeamsOrder);
     }
 
@@ -188,6 +230,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
       }
 
       newTeamsOrder.push(teams[loser]);
+
+      handleAddPlayerInPaymentControl(teams[0].concat(teams[1]));
 
       return setTeams(newTeamsOrder);
     }
@@ -224,6 +268,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
     newTeamsOrder.push(newLoserTeam);
 
+    handleAddPlayerInPaymentControl(teams[0].concat(teams[1]));
+
     setTeams(newTeamsOrder);
   };
 
@@ -249,9 +295,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
       const newTeamsOrder = order(arrayPlayers, limit);
 
-      console.log("Novos times", newTeamsOrder);
+      localStorage.setItem("@peladeiros:teams", JSON.stringify(newTeamsOrder));
 
-      localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
       return setTeams(newTeamsOrder);
     } else if (indexTeam >= 2 && indexTeam < teams.length - 1) {
       const selectedPlayer = arrayPlayers[limit * (indexTeam + 1)];
@@ -262,8 +307,8 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
 
       const newTeamsOrder = order(arrayPlayers, limit);
 
-      console.log("Novos times", newTeamsOrder);
-      localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
+      localStorage.setItem("@peladeiros:teams", JSON.stringify(newTeamsOrder));
+
       return setTeams(newTeamsOrder);
     }
 
@@ -272,8 +317,7 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
       limit
     );
 
-    console.log("Novos times", newTeamsOrder);
-    localStorage.setItem("@peladeiras:teams", JSON.stringify(newTeamsOrder));
+    localStorage.setItem("@peladeiros:teams", JSON.stringify(newTeamsOrder));
     setTeams(newTeamsOrder);
   };
 
@@ -281,6 +325,7 @@ const MatchProvider = ({ children }: MatchProviderProps) => {
     <MatchContext.Provider
       value={{
         teams,
+        paymentControl,
         handleDrawTeams,
         handleFinishMatch,
         handleRemovePlayer,
