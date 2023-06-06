@@ -1,17 +1,17 @@
-import { useGame } from "../../contexts/useGames";
 import { Title } from "../../components/Title";
 import { PageContainer } from "../../components/PageContainer";
 
 import { ListPlayers } from "../../components/Players/ListPlayers";
+import { useMatch } from "../../contexts/useMatch";
 
 export function Finish() {
-  const { playersOrder } = useGame();
+  const { paymentControl } = useMatch();
 
   return (
     <PageContainer pb={10}>
-      <Title>Jogadores</Title>
+      <Title>Lista de Pagamento</Title>
 
-      <ListPlayers isSortable={true} players={playersOrder} />
+      <ListPlayers isSortable={true} players={paymentControl} />
     </PageContainer>
   );
 }

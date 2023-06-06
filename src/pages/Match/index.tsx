@@ -23,7 +23,7 @@ import {
   ContainerScoreboard,
 } from "./styles";
 import { Warning } from "../../components/Warning";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -40,6 +40,8 @@ export function Match() {
 
   const { handleDrawTeams } = useMatch();
   const { currentGame, handleChangeShirtColor } = useGame();
+
+  const navigate = useNavigate();
 
   const tabsSummary: TabsSummary = {
     0: <Order />,
@@ -64,7 +66,7 @@ export function Match() {
   };
 
   const handleFinishMatch = () => {
-    Navigate("/finish");
+    navigate("/finish");
     setIsWarningOpenRaffleTeams(false);
   };
 
