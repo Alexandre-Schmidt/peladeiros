@@ -22,6 +22,8 @@ import {
   ContainerTeams,
   ContainerScoreboard,
 } from "./styles";
+import { Warning } from "../../components/Warning";
+import { Navigate } from "react-router-dom";
 
 interface TabsSummary {
   [key: number]: ReactNode;
@@ -32,6 +34,9 @@ export function Match() {
   const [scoreLeft, setScoreLeft] = useState(0);
   const [scoreRight, setScoreRight] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [isWarningOpenRaffleTeams, setIsWarningOpenRaffleTeams] =
+    useState(false);
+  const [isWarningOpenEndGame, setIsWarningOpenEndGame] = useState(false);
 
   const { handleDrawTeams } = useMatch();
   const { currentGame, handleChangeShirtColor } = useGame();
@@ -59,13 +64,32 @@ export function Match() {
   };
 
   const handleFinishMatch = () => {
-    console.log("Finalizar pelada");
+    Navigate("/finish");
+    setIsWarningOpenRaffleTeams(false);
+  };
+
+  const handleRaffleTeams = () => {
+    handleDrawTeams();
+    setIsWarningOpenRaffleTeams(false);
+  };
+
+  const handleOpenWarningRaffle = () => {
+    setIsWarningOpenRaffleTeams(true);
+  };
+  const handleOpenWarningEndGame = () => {
+    setIsWarningOpenEndGame(true);
+  };
+
+  const handleCloseWarning = (type: "raffle" | "end") => {
+    type === "raffle"
+      ? setIsWarningOpenRaffleTeams(false)
+      : setIsWarningOpenEndGame(false);
   };
 
   const menuItems = [
-    { label: "Sortear Times", action: handleDrawTeams },
+    { label: "Sortear Times", action: handleOpenWarningRaffle },
     { label: "Adicionar jogador", action: handleOpenModal },
-    { label: "Finalizar Pelada", action: handleFinishMatch },
+    { label: "Finalizar Pelada", action: handleOpenWarningEndGame },
   ];
 
   return (
@@ -111,6 +135,24 @@ export function Match() {
 
             <div>{tabsSummary[currentTab]}</div>
           </TabsContainer>
+
+          <Warning
+            isOpen={isWarningOpenRaffleTeams}
+            title="Atenção!"
+            message="Você tem certeza de que deseja Sortear os Times? Por favor, confirme"
+            onClose={() => handleCloseWarning("raffle")}
+            onCancel={() => handleCloseWarning("raffle")}
+            onConfirm={handleRaffleTeams}
+          />
+
+          <Warning
+            isOpen={isWarningOpenEndGame}
+            title="Atenção!"
+            message="Você tem certeza de que deseja Finalizar a Pelada? Por favor, confirme"
+            onClose={() => handleCloseWarning("end")}
+            onCancel={() => handleCloseWarning("end")}
+            onConfirm={() => handleFinishMatch()}
+          />
         </Container>
       )}
 
