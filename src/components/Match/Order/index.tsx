@@ -13,6 +13,7 @@ export function Order() {
         isSortable={true}
         isIconRemove={true}
         players={playersOrder}
+        removeBlocked={true}
       />
     </Container>
   );

@@ -18,12 +18,14 @@ export const ContainerTeam = styled.div`
       left: -1.25rem;
     }
   }
+
+  button {
+    width: 32px;
+    margin: 0 auto;
+  }
 `;
 
-export const ShirtWrapper = styled.div`
-  height: 96px;
-  width: 82px;
-`;
+export const ShirtWrapper = styled.div``;
 
 export const ContainerShirtButton = styled.div`
   display: flex;

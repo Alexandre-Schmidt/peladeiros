@@ -8,12 +8,14 @@ interface ListPlayersProps {
   players: Player[];
   isSortable?: boolean;
   isIconRemove?: boolean;
+  removeBlocked?: boolean;
 }
 
 export function ListPlayers({
   players,
   isSortable,
   isIconRemove,
+  removeBlocked,
 }: ListPlayersProps) {
   return (
     <Container>
@@ -26,6 +28,7 @@ export function ListPlayers({
           isSortable={isSortable}
           isIconRemove={isIconRemove}
           lastPosition={players.length - 1}
+          removeBlocked={removeBlocked}
         />
       ))}
     </Container>

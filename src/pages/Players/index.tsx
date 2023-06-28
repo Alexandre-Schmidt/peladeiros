@@ -17,7 +17,7 @@ export function Players() {
   const { getFilteredPlayers } = usePlayer();
 
   const handleGoBack = () => {
-    navigate("/order");
+    navigate(-1);
   };
 
   const players = useMemo(() => {
@@ -29,7 +29,7 @@ export function Players() {
   }, [currentGame, getFilteredPlayers]);
 
   return (
-    <PageContainer>
+    <PageContainer pb={2}>
       <Back onClick={handleGoBack}>
         <ArrowCircleLeft size={40} color="#4cb963" weight="fill" />
       </Back>
