@@ -32,6 +32,22 @@ export const TabsContainer = styled.div`
   > div:last-child {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 18rem;
   }
+`;
+
+export const AddPlayerContainer = styled.div`
+  position: absolute;
+  right: 1rem;
+`;
+
+export const ButtonAdd = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+
+  background-color: ${({ theme }) => theme.green500};
 `;

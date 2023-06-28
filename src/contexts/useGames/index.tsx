@@ -10,9 +10,9 @@ export interface CreateGameData {
   duration: number;
   goals: number;
   rule: number;
-  shirtColors?: {
-    team01: string;
-    teams02: string;
+  shirtColors: {
+    team01: number;
+    team02: number;
   };
 }
 
@@ -31,14 +31,9 @@ interface GameContextData {
   createGame: (data: CreateGameData) => void;
   handleAddPlayerOrder: (player: Player) => void;
   handleSetCurrentGame: (id: string) => void;
-  handleRemovePlayerOrder: (id: string) => void;
+  handleRemovePlayerOrder: (id: string, removeBlocked: boolean) => void;
   handleChangePlayerOrder: (data: ChangePlayerOrder) => void;
-  handleChangeShirtColors: (
-    team01: string,
-    team02: string,
-    color: string
-  ) => void;
-
+  handleChangeShirtColor: (team: string, color: number) => void;
   reset: () => void;
 }
 
@@ -151,7 +146,22 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleRemovePlayerOrder = (id: string) => {
+  const handleRemovePlayerOrder = (id: string, removeBlocked: boolean) => {
+    if (!currentGame) return;
+
+    if (
+      playersOrder.length === currentGame.playersNumber * 2 &&
+      removeBlocked
+    ) {
+      handleOpenToast({
+        type: "error",
+        title: "Error",
+        message: "Não há jogador para substituir!",
+      });
+
+      return;
+    }
+
     const newPlayersOrder = playersOrder.filter((player) => player.id !== id);
 
     setPlayersOrder(newPlayersOrder);
@@ -162,24 +172,36 @@ const GameProvider = ({ children }: GameProviderProps) => {
     );
   };
 
-  const handleChangeShirtColors = (teams: string, color: string) => {
-    const currentGame = localStorage.getItem("@peladeiros:currentGame");
+  const handleChangeShirtColor = (team: string, color: number) => {
+    console.log(team, color);
+
+    const findGames = localStorage.getItem("@peladeiros:games");
+
+    if (!findGames) return;
 
     if (!currentGame) return;
 
-    const currentGameData = JSON.parse(currentGame);
+    const games: GameData[] = JSON.parse(findGames);
 
-    const newGameData = {
-      ...currentGameData,
-      [teams]: color,
-    };
+    const newGames = games.map((game) => {
+      if (game.id !== currentGame.id) return game;
 
-    localStorage.setItem(
-      "@peladeiros:currentGame",
-      JSON.stringify(newGameData)
-    );
+      const newGame = {
+        ...game,
+        shirtColors: {
+          ...game.shirtColors,
+          [team]: color,
+        },
+      };
 
-    setCurrentGame(newGameData);
+      setCurrentGame(newGame);
+
+      localStorage.setItem("@peladeiros:currentGame", JSON.stringify(newGame));
+
+      return newGame;
+    });
+
+    localStorage.setItem("@peladeiros:games", JSON.stringify(newGames));
   };
 
   return (
@@ -193,7 +215,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         reset,
         handleChangePlayerOrder,
         handleRemovePlayerOrder,
-        handleChangeShirtColors,
+        handleChangeShirtColor,
       }}
     >
       {children}

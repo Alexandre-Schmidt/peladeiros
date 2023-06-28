@@ -8,6 +8,7 @@ import { Order } from "../pages/Order";
 import { Players } from "../pages/Players";
 import { Welcome } from "../pages/Welcome";
 import { Match } from "../pages/Match";
+import { Finish } from "../pages/Finish";
 
 export function Router() {
   return (
@@ -19,6 +20,7 @@ export function Router() {
         <Route path="/players" element={<Players />} />
         <Route path="/order" element={<Order />} />
         <Route path="/match" element={<Match />} />
+        <Route path="/finish" element={<Finish />} />
       </Route>
     </Routes>
   );

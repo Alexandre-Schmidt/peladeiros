@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { IoIosFootball } from "react-icons/io";
 
+import { colors } from "../../utils/colors";
+
+import { Shirt } from "../Shirt";
+import { Warning } from "../Warning";
+
 import {
   ContainerShirtButton,
   ContainerTeam,
@@ -8,31 +13,22 @@ import {
   ShirtButton,
 } from "./styles";
 
-import { Shirt } from "../Shirt";
-import { Warning } from "../Warning";
-
 interface TeamProps {
+  shirtColorIndex: number;
   handleCounterScore: () => void;
+  handleChangeColorShirt: (color: number) => void;
 }
 
-export function Team({ handleCounterScore }: TeamProps) {
+export function Team({
+  shirtColorIndex,
+  handleCounterScore,
+  handleChangeColorShirt,
+}: TeamProps) {
   const [showColorsShirt, setShowColorsShirt] = useState(false);
-  const [colorSelected, setColorSelected] = useState(
-    Math.floor(Math.random() * 6)
-  );
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
-  const colors = [
-    "#4cb963",
-    "#f2c94c",
-    "#f2994a",
-    "#eb5757",
-    "#2f80ed",
-    "#000000",
-  ];
-
   const handleSelectColor = (color: number) => {
-    setColorSelected(color);
+    handleChangeColorShirt(color);
     setShowColorsShirt(false);
   };
 
@@ -53,7 +49,7 @@ export function Team({ handleCounterScore }: TeamProps) {
     <ContainerTeam>
       <ShirtWrapper>
         <Shirt
-          color={colors[colorSelected]}
+          color={colors[shirtColorIndex]}
           onClick={() => setShowColorsShirt(true)}
         />
       </ShirtWrapper>
